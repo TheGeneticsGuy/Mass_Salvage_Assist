@@ -322,11 +322,30 @@ Crafting.Is_More_To_Craft = function( craft_id )
     return needs_to_stack , more_to_craft
 end
 
+Crafting.Has_Buff = function ( buff )
+    local has_buff = false;
+    AuraUtil.ForEachAura("player", "HELPFUL", nil, function(name, icon, _, _, _, _, _, _, _, spellId, ...)
+        if spellId == buff then
+            has_buff = true
+            return true
+        end
+    end)
+    return has_buff
+end
+
 -- Method:          Crafting.CraftListener ( int )
 -- What it Does:    Acts as an event listener to control when to trigger the reagent stacking action
 -- Purpose:         Quality of life helper for mass Crafting.
 Crafting.CraftListener = function ( craft_id )
     if MSA_save.non_stop and not combiningStacks then
+
+        -- Check if current craft is Gleaming Shatter and abort if Shattered Essence buff is not present
+        if ( craft_id == 470726 and not Crafting.Has_Buff( 445798 ) ) then
+            C_TradeSkillUI.StopRecipeRepeat()
+            print ("MSA - Crafting has ended prematurely because Shattered Essence buff is not present")
+            return
+        end
+
         local remaining_casts = C_TradeSkillUI.GetRemainingRecasts()
 
         if ( remaining_casts and remaining_casts < 25 ) then
@@ -390,7 +409,6 @@ CraftingFrame:SetScript( "OnEvent" , function( _ , event , craft_id , _ , failed
 
     if event == "TRADE_SKILL_CRAFT_BEGIN" then
         if Crafting.Is_Salvage_Recipe ( craft_id ) then
-
             Crafting.CraftListener(craft_id);
         end
 
