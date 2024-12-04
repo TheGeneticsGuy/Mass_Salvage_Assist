@@ -78,7 +78,6 @@ Crafting.CombineStacks = function( scrapSlot , itemID , forced , restart_craftin
 
             if lowestStack then
                 -- Now, let's combine all of the smallest stacks to biggest stacks.
-                print("Slot: " .. scrapSlot[1] .. " : " .. scrapSlot[2] .. " --" .. lowestStack[1] .. " : " .. lowestStack[2])
                 C_Container.PickupContainerItem( lowestStack[1] , lowestStack[2] );
                 C_Container.PickupContainerItem( scrapSlot[1] , scrapSlot[2] );
 
@@ -146,7 +145,7 @@ Crafting.GetSalveItemDetails = function( restart_crafting , craft_id )
     if restart_crafting then
         local item_detail = {}
 
-        for bag = 0 , NUM_BAG_SLOTS + 1 do  -- Loop through all bags + reagent bag
+        for bag = 0 , NUM_BAG_SLOTS + NUM_REAGENTBAG_SLOTS do  -- Loop through all bags + reagent bag
             for slot = 1, C_Container.GetContainerNumSlots( bag ) do
                 item_detail = C_Container.GetContainerItemInfo( bag , slot )
 
@@ -211,7 +210,7 @@ Crafting.GetFirstReagentSizeStack = function( item_id , craft_id )
 
     local item_info = {}
 
-    for bag = 0 , NUM_BAG_SLOTS + 1 do  -- Loop through all bags + reagent bag
+    for bag = 0 , NUM_BAG_SLOTS + NUM_REAGENTBAG_SLOTS do  -- Loop through all bags + reagent bag
         if not count then
             for slot = 1, C_Container.GetContainerNumSlots( bag ) do
                 item_info = C_Container.GetContainerItemInfo( bag , slot )
@@ -250,7 +249,7 @@ Crafting.Get_Remaining_Count_Bags = function( craft_id )
     end
 
     -- Let's see what's in our bags!
-    for bag = 0 , NUM_BAG_SLOTS + 1 do  -- Loop through all bags + reagent bag
+    for bag = 0 , NUM_BAG_SLOTS + NUM_REAGENTBAG_SLOTS do  -- Loop through all bags + reagent bag
         for slot = 1, C_Container.GetContainerNumSlots( bag ) do
             local item_info = C_Container.GetContainerItemInfo( bag , slot )
 
@@ -296,7 +295,7 @@ Crafting.Is_More_To_Craft = function( craft_id )
     end
 
     -- Let's see what's in our bags!
-    for bag = 0 , NUM_BAG_SLOTS + 1 do  -- Loop through all bags + reagent bag
+    for bag = 0 , NUM_BAG_SLOTS + NUM_REAGENTBAG_SLOTS do  -- Loop through all bags + reagent bag
         for slot = 1, C_Container.GetContainerNumSlots( bag ) do
             local item_info = C_Container.GetContainerItemInfo( bag , slot )
 
@@ -408,3 +407,6 @@ CraftingFrame:SetScript( "OnEvent" , function( _ , event , craft_id , _ , failed
     end
 
 end);
+
+
+-- C_TradeSkillUI.GetSalvagableItemIDs(374627)

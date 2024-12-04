@@ -183,7 +183,7 @@ end
 --                  and by not having the profession window open, this prevents issues like frames loss.
 SC.Craft = function( recipe_id , item_id )
     local smaller_stack = { -1 , 0 , 0 }
-    for bag = 0 , NUM_BAG_SLOTS + 1 do  -- Loop through all bags + reagent bag
+    for bag = 0 , NUM_BAG_SLOTS + NUM_REAGENTBAG_SLOTS do  -- Loop through all bags + reagent bag
         for slot = 1, C_Container.GetContainerNumSlots( bag ) do
             local itemInfo = C_Container.GetContainerItemInfo( bag , slot )
             local default_stack_min = MSA.Crafting.Get_Reagent_Count_Spell( recipe_id );

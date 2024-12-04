@@ -158,7 +158,7 @@ msa_timer:SetScript("OnEvent", function( _ , event , craft_id )
     if event == "TRADE_SKILL_CRAFT_BEGIN" then
         Trade_Skill_Craft_Record()
 
-        if MSA.UI.CT_Core_Frame.craft_id ~= craft_id then
+        if MSA.UI.CT_Core_Frame.craft_id ~= craft_id then   -- Only need to trigger a countdown check if spell craft ID has changed.
             MSA.UI.CT_Core_Frame.craft_id = craft_id
             CT.Initialize_Countdown();
         end
