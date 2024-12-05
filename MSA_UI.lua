@@ -53,6 +53,7 @@ UI.LoadUI = function()
                 end
                 UI.Configure_Visiblity( craft_id );
             end
+
         end);
 
     end
@@ -60,8 +61,8 @@ UI.LoadUI = function()
     if not UI.MSA_Timer_Button then
         --- TIMER BUTTON
         UI.MSA_Timer_Button = CreateFrame ( "Button" , "MSA_Timer_Button" , ProfessionsFrame.CraftingPage.SchematicForm , "UIPanelButtonTemplate" );
-        UI.MSA_Timer_Button:SetSize( 100 , 20 );
-        UI.MSA_Timer_Button:SetPoint( "TOPRIGHT" , ProfessionsFrame.CraftingPage.SchematicForm , "TOPRIGHT" , -5 , -35 )
+        UI.MSA_Timer_Button:SetSize( 100 , 23 );
+        UI.MSA_Timer_Button:SetPoint( "TOPRIGHT" , ProfessionsFrame.CraftingPage.SchematicForm , "TOPRIGHT" , -5 , -37 );
         UI.MSA_Timer_Button:SetText ( "Timer" );
 
         UI.MSA_Timer_Button:SetScript ( "OnClick" , function()
@@ -208,9 +209,158 @@ UI.Deploy_Timer_UI = function()
 
 end
 
+----------------------------
+-- ENCH SPECIFIC CHECKBOX --
+----------------------------
+
+-- Method:          UI.Configure_TWW_Ench ( bool )
+-- What it Does:    Builds the checkbox for Shattered Essence buff that is unique to TWW
+-- Purpose:         Give player contorl to enable or disable this feature.
+UI.Configure_TWW_Ench = function( hide_frame )
+
+    if hide_frame then
+        if UI.EnchBuff_Checkbox then
+            UI.EnchBuff_Checkbox:Hide();
+        end
+        return;
+    end
+
+    if not UI.EnchBuff_Checkbox and ProfessionsFrame and ProfessionsFrame.CraftingPage then
+
+        local sound_checkbox_configure = function( enable )
+            if enable then
+                UI.EnchBuff_Sound_Checkbox.Text:SetTextColor ( 1 , 0.82 , 0 );
+                UI.EnchBuff_Sound_Checkbox:Enable();
+            else
+                UI.EnchBuff_Sound_Checkbox.Text:SetTextColor ( 0.5 , 0.5 , 0.5 );
+                UI.EnchBuff_Sound_Checkbox:Disable();
+            end
+
+        end
+
+        UI.EnchBuff_Checkbox = CreateFrame ( "CheckButton" , "EnchBuff_Checkbox" , ProfessionsFrame.CraftingPage , "InterfaceOptionsCheckButtonTemplate" )
+        UI.EnchBuff_Checkbox.value = MSA_save.shatter_essence
+        UI.EnchBuff_Checkbox:SetChecked ( UI.EnchBuff_Checkbox.value )
+        UI.Special_Considerations_Table[445466][4] = MSA_save.shatter_essence;
+
+        -- Text to the right of checkbox
+        UI.EnchBuff_Checkbox.Text = UI.EnchBuff_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.EnchBuff_Checkbox.Text:SetText( "Cancel Crafting On Buff Expiration" );
+        UI.EnchBuff_Checkbox.Text:SetPoint( "LEFT" , UI.EnchBuff_Checkbox, "RIGHT" , 2 , 0 )
+
+        -- Normalize the click area of check button to length of the text
+        UI.EnchBuff_Checkbox:SetHitRectInsets ( 0 , 0 - UI.EnchBuff_Checkbox.Text:GetWidth() - 2 , 0 , 0 );
+
+        -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
+        UI.EnchBuff_Checkbox:SetPoint ( "TOPLEFT" , ProfessionsFrame.CraftingPage.SchematicForm.Reagents , "BOTTOMLEFT" , 0 , -5 )
+
+        -- Change the setting wether enabled or not
+        UI.EnchBuff_Checkbox:SetScript ( "OnClick" , function( self )
+            MSA_save.shatter_essence = self:GetChecked()
+            UI.EnchBuff_Checkbox.value = MSA_save.shatter_essence
+            UI.Special_Considerations_Table[445466][4] = MSA_save.shatter_essence;
+            sound_checkbox_configure( MSA_save.shatter_essence );
+        end)
+
+        -- Tooltip
+        UI.EnchBuff_Checkbox:SetScript ( "OnEnter" , function( self )
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:AddLine ( "MSA: Enable to ensure crafting automatically stops when buff expires." );
+            GameTooltip:Show();
+        end);
+
+        UI.EnchBuff_Checkbox:SetScript ( "OnLeave" , function()
+            GameTooltip:Hide()
+        end)
+
+        -- Build the sound option now
+        UI.EnchBuff_Sound_Checkbox = CreateFrame ( "CheckButton" , "EnchBuff_Sound_Checkbox" , UI.EnchBuff_Checkbox , "InterfaceOptionsCheckButtonTemplate" )
+        UI.EnchBuff_Sound_Checkbox.value = MSA_save.buff_expire_sound[1]
+        UI.EnchBuff_Sound_Checkbox:SetChecked ( UI.EnchBuff_Sound_Checkbox.value )
+
+        -- Text to the right of checkbox
+        UI.EnchBuff_Sound_Checkbox.Text = UI.EnchBuff_Sound_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.EnchBuff_Sound_Checkbox.Text:SetText( "Ring Bell on Expiration" );
+        UI.EnchBuff_Sound_Checkbox.Text:SetPoint( "LEFT" , UI.EnchBuff_Sound_Checkbox, "RIGHT" , 2 , 0 )
+
+        -- Normalize the click area of check button to length of the text
+        UI.EnchBuff_Sound_Checkbox:SetHitRectInsets ( 0 , 0 - UI.EnchBuff_Sound_Checkbox.Text:GetWidth() - 2 , 0 , 0 );
+
+        -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
+        UI.EnchBuff_Sound_Checkbox:SetPoint ( "TOPLEFT" , UI.EnchBuff_Checkbox, "BOTTOMRIGHT" , 0 , 0 )
+
+        -- Change the setting wether enabled or not
+        UI.EnchBuff_Sound_Checkbox:SetScript ( "OnClick" , function( self )
+            MSA_save.buff_expire_sound[1] = self:GetChecked()
+            UI.EnchBuff_Sound_Checkbox.value = MSA_save.buff_expire_sound[1]
+        end)
+
+        -- Tooltip
+        UI.EnchBuff_Sound_Checkbox:SetScript ( "OnEnter" , function( self )
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:AddLine ( "MSA: For now, there is only 1 sound choice. This will change." );
+            GameTooltip:Show();
+        end);
+
+        UI.EnchBuff_Sound_Checkbox:SetScript ( "OnLeave" , function()
+            GameTooltip:Hide()
+        end)
+
+        sound_checkbox_configure( MSA_save.shatter_essence );
+
+        -- This will auto-show on first creation
+
+    elseif UI.EnchBuff_Checkbox then
+        UI.EnchBuff_Checkbox:Show();
+    end
+
+end
+
 -----------------
 --- UI LOGIC ----
 -----------------
+
+
+
+-- I don't have the string variable for for Khaz Algar
+-- /run local ids = C_TradeSkillUI.GetAllProfessionTradeSkillLines(); for i=1,#ids do local info=C_TradeSkillUI.GetProfessionInfoBySkillLineID(ids[i]); if info.expansionName=="Khaz Algar" then print(info.professionName .. " - " .. info.professionID);end;end
+
+UI.SPECIAL_TRADESKILLID = {
+    [2874] = 445466         -- 2874 = Enchanting - Currently, only special prof used
+    -- [2872] = "BS",
+    -- [2880] = "LW",
+    -- [2871] = "ALCH",
+    -- [2875] = "ENG",
+    -- [2828] = "INSC"
+    -- [2879] = "JC",
+    -- [2883] = "TAIL",
+    -- [2877] = "HERB",
+    -- [2881] = "MINING",
+    -- [2882] = "SKIN",
+    -- [2873] = "COOK"
+ }
+
+-- Table to hold all special considerations based on expansion specific profession IDs
+-- type_consideration
+UI.Special_Considerations_Table = {
+    [445466] = { 1 , UI.Configure_TWW_Ench , 445798 , MSA_save.shatter_essence };       -- [ Recipe_id_to_show_checkbox ] = { type_consideration , special_action_function [, ... optional_variables] }
+}
+
+-- Method:          UI.Hide_Special_Frames ( int )
+-- What it Does:    Hides all special frames not focused if they are visible
+-- Purpose:         Ensures frames only shaow as needed and this is flexible for all special considerations.
+UI.Hide_Special_Frames = function ( bypass_id )
+    for id in pairs(UI.Special_Considerations_Table) do
+        if id ~= bypass_id then
+
+            -- For buffs, this is a special checkbox
+            if UI.Special_Considerations_Table[id][1] == 1 then
+                UI.Special_Considerations_Table[id][2]( true );
+            end
+
+        end
+    end
+end
 
 -- Method:          UI.Configure_Visiblity( nil )
 -- What it Does:    Shows or hides the checkbox for mass crafting depending on prfession and spell
@@ -222,6 +372,12 @@ UI.Configure_Visiblity = function( craft_id )
         else
             UI.MSA_checkbox:Hide()
         end
+
+        if UI.Special_Considerations_Table[craft_id] then
+            UI.Special_Considerations_Table[craft_id][2]();
+        end
+
+        UI.Hide_Special_Frames(craft_id);
     end
 end
 

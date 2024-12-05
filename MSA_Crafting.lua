@@ -5,6 +5,8 @@ MSA.Crafting = Crafting;
 -- Useful globals I haven't put in a tablet yet...
 local combiningStacks = false;
 
+local prof_id = 0;      -- For configuring the prof ID due to special unique considerations
+
 -- Method:          Crafting.Get_Reagent_Count_Spell ( int )
 -- What it Does:    Returns the number of reagents needed for that crafting spell
 -- Purpose:         When combining stacks, I want to always pick the lowest stack first, UNLESS it is small than the minimum stack size to craft
@@ -321,6 +323,9 @@ Crafting.Is_More_To_Craft = function( craft_id )
     return needs_to_stack , more_to_craft
 end
 
+-- Method - Created by @Klemmchr - Crafting.Has_Buff ( int )
+-- What it Does:        Checks if player hs a specific buff given
+-- Purpose:             Determine if crafting should continue, like with Shatter Essence buff from TWW expansion in Ench
 Crafting.Has_Buff = function ( buff )
     local has_buff = false;
     AuraUtil.ForEachAura("player", "HELPFUL", nil, function(name, icon, _, _, _, _, _, _, _, spellId, ...)
@@ -337,13 +342,6 @@ end
 -- Purpose:         Quality of life helper for mass Crafting.
 Crafting.CraftListener = function ( craft_id )
     if MSA_save.non_stop and not combiningStacks then
-
-        -- Check if current craft is Gleaming Shatter and abort if Shattered Essence buff is not present
-        if ( craft_id == 470726 and not Crafting.Has_Buff( 445798 ) ) then
-            C_TradeSkillUI.StopRecipeRepeat()
-            print ("MSA - Crafting has ended prematurely because Shattered Essence buff is not present")
-            return
-        end
 
         local remaining_casts = C_TradeSkillUI.GetRemainingRecasts()
 
@@ -426,5 +424,42 @@ CraftingFrame:SetScript( "OnEvent" , function( _ , event , craft_id , _ , failed
 
 end);
 
+----------------------------------
+-- SPECIAL CONSIDERATIONS LOGIC --
+----------------------------------
 
--- C_TradeSkillUI.GetSalvagableItemIDs(374627)
+-- Method:          Crafting.Special_Considerations_Endpoint ( int )
+-- What it Does:    Perform the action of the type of consideration being made.
+-- Purpose:         Depending on the type of consideration, to perform certain actions if applicable, for example
+--                  End crafting if a buff expires.
+Crafting.Special_Considerations_Endpoint = function( craft_id )
+
+    local id = C_TradeSkillUI.GetProfessionInfoByRecipeID ( craft_id ).professionID;
+    if prof_id ~= id then
+        prof_id = id;
+    end
+
+    -- If this is a profession with a specialized condition and the crafting recipe itself is not the special condition then
+    if MSA.UI.SPECIAL_TRADESKILLID[prof_id] and not MSA.UI.Special_Considerations_Table[craft_id] then
+
+        if MSA.UI.Special_Considerations_Table[MSA.UI.SPECIAL_TRADESKILLID[prof_id]][1] == 1 then  -- Buff Type
+
+            if MSA.UI.Special_Considerations_Table[MSA.UI.SPECIAL_TRADESKILLID[prof_id]][4] and not Crafting.Has_Buff( MSA.UI.Special_Considerations_Table[MSA.UI.SPECIAL_TRADESKILLID[prof_id]][3] ) then
+
+                C_TradeSkillUI.StopRecipeRepeat()
+                if MSA_save.buff_expire_sound[1] then
+                    PlaySoundFile( MSA_save.buff_expire_sound[2] , "Master" );
+                    C_Timer.After ( 0.5 , function()
+                        PlaySoundFile( MSA_save.buff_expire_sound[2] , "Master" );      -- Play twice for audio aesthetics
+                    end)
+                end
+                print ("MSA - Crafting has ended prematurely because Shattered Essence buff is not present");
+            end
+
+        -- elseif MSA.UI.Special_Considerations_Table[MSA.UI.SPECIAL_TRADESKILLID[prof_id]] == 2 then       -- Still pending on type
+
+        end
+    end
+end
+
+-- C_TradeSkillUI.GetSalvagableItemIDs(374627)  -- I'll use when building UI for item selection for all

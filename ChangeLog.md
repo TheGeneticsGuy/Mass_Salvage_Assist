@@ -1,3 +1,15 @@
+## **Mass Salvage Assist - Version 1.0.10 - Dec 5th, 2024
+
+***QUALITY OF LIFE***
+
+* You now can set TWW Enchanting to only allow crafting if Shattered Essence buff is active. If the buff expires, you can now choose to have MSA auto-stop crafting immediately. You also have the option to sound a bell when the buff expires. These options are found on the shattered essence spell. TY @klemmchr on Github for a starting point and PR here!
+
+* The Timer button has been slightly adjusted so its positioning is tweaked and a better gap between text is given, and it is more aligned with the popular CraftSim addon in placement.
+
+**BUG REPORTS**
+
+* Removed an error trace printout message that would occur when bags were restacking items
+
 
 
 ## **Mass Salvage Assist - Version 1.0.9 - Nov 10th, 2024

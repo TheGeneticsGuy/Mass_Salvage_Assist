@@ -32,6 +32,14 @@ local LoadSettings = function( reset_settings )
     if MSA_save.always_show == nil then
         MSA_save.always_show = true
     end
+
+    if MSA_save.shatter_essence == nil then
+        MSA_save.shatter_essence = false;
+    end
+
+    if MSA_save.buff_expire_sound == nil then
+        MSA_save.buff_expire_sound = { true , "Interface\\AddOns\\Mass_Salvage_Assist\\media\\sounds\\BellTollAlliance.ogg" }   -- Default file
+    end
 end
 
 ------------------------

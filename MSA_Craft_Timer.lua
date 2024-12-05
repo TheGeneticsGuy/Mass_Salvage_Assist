@@ -113,6 +113,7 @@ CT.Initialize_Countdown = function( isRepeating )
         end
 
         C_Timer.After ( 1 , function()
+
             if C_TradeSkillUI.IsRecipeRepeating() then
 
                 if not window_triggered then
@@ -127,6 +128,8 @@ CT.Initialize_Countdown = function( isRepeating )
                 MSA.SC.resume_item_id = 0;
 
                 CT.Initialize_Countdown( true );
+
+                MSA.Crafting.Special_Considerations_Endpoint( MSA.UI.CT_Core_Frame.craft_id );
             else
                 -- Crafting Stopped - Reset values
                 CT.timer_table = {};
