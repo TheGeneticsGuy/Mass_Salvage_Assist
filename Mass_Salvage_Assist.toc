@@ -1,7 +1,7 @@
-## Interface: 110005
+## Interface: 110007
 ## Title: Mass Salvage Assist
 ## Author: TheGenomeWhisperer (Arkaan-Zul'jin)
-## Version: 1.0.10
+## Version: 1.0.11
 ## Notes: Mass Salvage without error or interruption
 ## SavedVariables: MSA_save
 

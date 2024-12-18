@@ -1,3 +1,9 @@
+## **Mass Salvage Assist - Version 1.0.11 - Dec 18th, 2024
+
+*Compatibility Release - 11.0.7*
+
+**IMPORTANT NOTE** - Holidays are a bit busy so it has been hard for me to get to "building" out features again due to RL busyness. Come January things will go back to normal with speedier results. Thank you for understanding!
+
 ## **Mass Salvage Assist - Version 1.0.10 - Dec 5th, 2024
 
 ***QUALITY OF LIFE***
@@ -9,7 +15,6 @@
 **BUG REPORTS**
 
 * Removed an error trace printout message that would occur when bags were restacking items
-
 
 
 ## **Mass Salvage Assist - Version 1.0.9 - Nov 10th, 2024
