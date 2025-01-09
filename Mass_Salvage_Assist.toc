@@ -1,7 +1,7 @@
 ## Interface: 110007
 ## Title: Mass Salvage Assist
 ## Author: TheGenomeWhisperer (Arkaan-Zul'jin)
-## Version: 1.0.11
+## Version: 1.0.12
 ## Notes: Mass Salvage without error or interruption
 ## SavedVariables: MSA_save
 
@@ -10,3 +10,4 @@ MSA_Crafting.lua
 MSA_UI.lua
 MSA_Slash.lua
 MSA_Craft_Timer.lua
+MSA_afk.lua

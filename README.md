@@ -49,6 +49,14 @@ Assists in Mass Salvaging/crafting in World of Warcraft by allowing you to mass 
 
 ![Crafting Timer](https://i.imgur.com/6vkRNcz.jpeg)
 
+**AFK ALERT**
+
+!["AFK Alert](https://i.imgur.com/yEH8yrx.jpeg)
+
+* Feature can be enabled and disabled.
+* Bell sound when player goes AFK (but only when mass salvaging)
+* Raid Alert sound when the 20 second countdown to being kicked offline appears (but only if crafting)
+
 **LIMITATIONS**
 
 * Only reagents that are within your player bags, and the player reagent bag will be continually stacked -- not your bank, reagent bank, or warband bags.

@@ -1,3 +1,24 @@
+## **Mass Salvage Assist - Version 1.0.12 - Jan 8th, 2024
+
+***NEW FEATURE***
+
+**AFK ALERT**
+
+!["AFK Alert](https://i.imgur.com/yEH8yrx.jpeg)
+
+* Feature can be enabled and disabled.
+* Bell sound when player goes AFK (but only when mass salvaging)
+* Raid Alert sound when the 20 second countdown to being kicked offline appears (but only if crafting)
+
+***BUG FIXES***
+
+* Issue with bags not stacking properly and crafting ending prematurely with certain alchemy recipes, notably ones that used items that stacked only to 200. This was slightly overlooked as reagent types all stack to 1000... except in some recipes you salvage potions that stack only to 200. This should now function properly.
+
+* Weird anomaly as well when crafting with non-salvage-type reagents. Very few recipes affected by this, but it would have caused crafting failure in many cases for certain crafting recipes.
+
+* These same types of recipes should now work with slash commands. Slash command as a result will also be more accurate in the included itemID by not just determinining it is a valid reagent type to salvage, but instead, comparing its item_ID against the table of all valid items for that recipe.
+
+
 ## **Mass Salvage Assist - Version 1.0.11 - Dec 18th, 2024
 
 *Compatibility Release - 11.0.7*

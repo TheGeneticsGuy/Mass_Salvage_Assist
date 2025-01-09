@@ -121,7 +121,7 @@ SC.IsValid = function ( command )
         isValid = false;
     end
 
-    if type( command[3] ) == "number" and not SC.Is_Valid_Item_ID ( command[3] ) then
+    if type( command[3] ) == "number" and not SC.Is_Valid_Item_ID ( command[2] , command[3] ) then
         isValid = false;
     elseif type( command[3] ) ~= "number" then
         print('The item ID \'' .. command[3] .. '\' is not valid.')
@@ -151,15 +151,27 @@ SC.Is_Salvage_Recipe = function( recipe_id )
     return false;
 end
 
--- Method:          SC.Is_Valid_Item_ID ( int )
+-- Method:          SC.Is_Valid_Item_ID ( int , int )
 -- What it Does:    Returns true if the item is a valid itemID
 -- Purpose:         Just breaking up the validation checks
-SC.Is_Valid_Item_ID = function ( item_id )
+SC.Is_Valid_Item_ID = function ( spell_id , item_id )
 
     local item_class = select ( 6 , GetItemInfoInstant ( item_id ) );
 
     if item_class then
-        if item_class == 7 then -- 7 indicates tradeskill reagent
+
+        local valid_reagents = C_TradeSkillUI.GetSalvagableItemIDs(spell_id);
+        local isValid = false;
+        if valid_reagents then
+            for i = 1 , #valid_reagents do
+                if valid_reagents[i] == item_id then
+                    isValid = true;
+                    break;
+                end
+            end
+        end
+
+        if isValid then
             return true;
         else
             print('\'' .. item_id .. '\' is not a valid crafting reagent.')
@@ -167,6 +179,7 @@ SC.Is_Valid_Item_ID = function ( item_id )
     else
         print('The item ID \'' .. item_id .. '\' is not valid.')
     end
+
     return false;
 end
 

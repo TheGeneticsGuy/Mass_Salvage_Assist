@@ -84,6 +84,7 @@ local function Trade_Skill_Craft_Record()
             end
         end
         timestamp = GetTime();
+        MSA.AFK.TimeSinceCraft = time();
     else
         CT.timer_table = {};
     end

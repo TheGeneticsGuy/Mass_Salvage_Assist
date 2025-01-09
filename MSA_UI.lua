@@ -85,6 +85,45 @@ UI.LoadUI = function()
 
     end
 
+    if not UI.MSA_AFK_Alert_Checkbox then
+        UI.MSA_AFK_Alert_Checkbox = CreateFrame ( "CheckButton" , "UI.MSA_AFK_Alert_Checkbox" , ProfessionsFrame.CraftingPage , "InterfaceOptionsCheckButtonTemplate" )
+        UI.MSA_AFK_Alert_Checkbox.value = MSA_save.afkAlarm[1]
+        UI.MSA_AFK_Alert_Checkbox:SetChecked ( UI.MSA_AFK_Alert_Checkbox.value )
+
+        -- Text to the right of checkbox
+        UI.MSA_AFK_Alert_Checkbox.Text = UI.MSA_AFK_Alert_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.MSA_AFK_Alert_Checkbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
+        UI.MSA_AFK_Alert_Checkbox.Text:SetText( "AFK Alert" )
+        -- UI.MSA_AFK_Alert_Checkbox.Text:SetPoint( "LEFT" , UI.MSA_AFK_Alert_Checkbox, "RIGHT" , 2 , 0 )
+
+        -- Normalize the click area of check button to length of the text
+        UI.MSA_AFK_Alert_Checkbox:SetHitRectInsets ( 0 , 0 - UI.MSA_AFK_Alert_Checkbox.Text:GetWidth() - 2 , 0 , 0 );
+
+        -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
+        UI.MSA_AFK_Alert_Checkbox:SetPoint ( "RIGHT" , UI.MSA_AFK_Alert_Checkbox.Text , "LEFT" , -2 , 0 );
+        UI.MSA_AFK_Alert_Checkbox.Text:SetPoint("TOPRIGHT" , UI.MSA_Timer_Button , "BOTTOMRIGHT" , 0 , -6 );
+
+        -- Change the setting wether enabled or not
+        UI.MSA_AFK_Alert_Checkbox:SetScript ( "OnClick" , function( self )
+            MSA_save.afkAlarm[1] = self:GetChecked()
+            UI.MSA_checkbox.value = MSA_save.afkAlarm[1];
+        end)
+
+        UI.MSA_AFK_Alert_Checkbox:SetScript("OnEnter" , function( self )
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:AddLine ( "MSA AFK ALERT" , 1 , 0 , 0 );
+            GameTooltip:AddLine ( ' ' );
+            GameTooltip:AddDoubleLine ( "Alert 1:", "Going AFK while crafting" );
+            GameTooltip:AddDoubleLine ( "Alert 2:", "20 Second offline countdown" );
+            GameTooltip:Show();
+        end)
+
+        UI.MSA_AFK_Alert_Checkbox:SetScript ( "OnLeave" , function()
+            GameTooltip:Hide()
+        end)
+
+    end
+
 end
 
 ----------------------------

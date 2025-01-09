@@ -40,6 +40,10 @@ local LoadSettings = function( reset_settings )
     if MSA_save.buff_expire_sound == nil then
         MSA_save.buff_expire_sound = { true , "Interface\\AddOns\\Mass_Salvage_Assist\\media\\sounds\\BellTollAlliance.ogg" }   -- Default file
     end
+
+    if MSA_save.afkAlarm == nil then
+        MSA_save.afkAlarm = { true , "ALARM_CLOCK_WARNING_3" , "RAID_WARNING" };
+    end
 end
 
 ------------------------
