@@ -21,8 +21,25 @@ Listener:SetScript("OnEvent", function(self, event, unit )
 
             -- Play first alert for simple AFK - not logout
             if MSA_save.afkAlarm[1] and C_TradeSkillUI.IsRecipeRepeating() then      -- Only play if going afk.
-                PlaySound(SOUNDKIT[MSA_save.afkAlarm[2]] , "Master");
-                print("MSA Warning! AFK while crafting. Sound Activated." );
+                local soundEnabled = GetCVar("Sound_EnableAllSound")
+                local soundSFX = GetCVar("Sound_EnableSFX")
+
+                if MSA_save.afkAlarm[4] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                    SetCVar("Sound_EnableAllSound", 1);
+                    SetCVar("Sound_EnableSFX", 1);
+                end
+
+                PlaySound(SOUNDKIT[MSA_save.afkAlarm[2]] , "SFX");
+                print("MSA Warning! AFK while crafting." );
+
+                -- Restore the sound
+                if MSA_save.afkAlarm[4] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                    C_Timer.After(1, function()
+                        SetCVar("Sound_EnableAllSound", soundEnabled)
+                        SetCVar("Sound_EnableSFX", soundSFX);
+                    end)
+                end
+
             end
 
         -- Player returned from AFK
@@ -40,8 +57,25 @@ Listener:SetScript("OnEvent", function(self, event, unit )
                 if StaticPopup1:IsVisible() then
                     local num = StaticPopup1Text:GetText():match("%d%d");
                     if num and tonumber ( num ) <= 20 then
-                        PlaySound(SOUNDKIT[MSA_save.afkAlarm[3]] , "Master")
+
+                        local soundEnabled = GetCVar("Sound_EnableAllSound")
+                        local soundSFX = GetCVar("Sound_EnableSFX")
+
+                        if MSA_save.afkAlarm[4] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                            SetCVar("Sound_EnableAllSound", 1);
+                            SetCVar("Sound_EnableSFX", 1);
+                        end
+
+                        PlaySound(SOUNDKIT[MSA_save.afkAlarm[3]] , "SFX")
                         print("MSA WARNING - COUNTDOWN TO LOGOFF TRIGGERED!!!")
+
+                        -- Restore the sound
+                        if MSA_save.afkAlarm[4] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                            C_Timer.After(1, function()
+                                SetCVar("Sound_EnableAllSound", soundEnabled)
+                                SetCVar("Sound_EnableSFX", soundSFX);
+                            end)
+                        end
                     end
                 end
             end)

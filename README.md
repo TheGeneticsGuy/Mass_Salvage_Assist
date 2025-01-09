@@ -54,6 +54,7 @@ Assists in Mass Salvaging/crafting in World of Warcraft by allowing you to mass 
 * Feature can be enabled and disabled.
 * Bell sound when player goes AFK (but only when mass salvaging)
 * Raid Alert sound when the 20 second countdown to being kicked offline appears (but only if crafting)
+* Option to play the alert in the background, even bypassing disabled audio settings.
 
 **LIMITATIONS**
 

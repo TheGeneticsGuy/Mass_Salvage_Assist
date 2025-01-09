@@ -1,3 +1,7 @@
+## **Mass Salvage Assist - Version 1.0.13 - Jan 9th, 2024
+
+*Update on the AFK Alert - Added an option to bypass sound being disabled.I would rather be crafting silent in the background and the ONLY sound I hear is the alert. You can choose to bypass or to not. It will bypass both the Effects being disabled (Ctrl-s) or even if all sound is disbaled.*
+
 ## **Mass Salvage Assist - Version 1.0.12 - Jan 8th, 2024
 
 ***NEW FEATURE***

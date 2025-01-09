@@ -42,7 +42,7 @@ local LoadSettings = function( reset_settings )
     end
 
     if MSA_save.afkAlarm == nil then
-        MSA_save.afkAlarm = { true , "ALARM_CLOCK_WARNING_3" , "RAID_WARNING" };
+        MSA_save.afkAlarm = { true , "ALARM_CLOCK_WARNING_3" , "RAID_WARNING" , true };     -- ind4 = Force Sound
     end
 end
 

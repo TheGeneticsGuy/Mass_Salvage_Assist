@@ -86,7 +86,7 @@ UI.LoadUI = function()
     end
 
     if not UI.MSA_AFK_Alert_Checkbox then
-        UI.MSA_AFK_Alert_Checkbox = CreateFrame ( "CheckButton" , "UI.MSA_AFK_Alert_Checkbox" , ProfessionsFrame.CraftingPage , "InterfaceOptionsCheckButtonTemplate" )
+        UI.MSA_AFK_Alert_Checkbox = CreateFrame ( "CheckButton" , "MSA_AFK_Alert_Checkbox" , ProfessionsFrame.CraftingPage , "InterfaceOptionsCheckButtonTemplate" )
         UI.MSA_AFK_Alert_Checkbox.value = MSA_save.afkAlarm[1]
         UI.MSA_AFK_Alert_Checkbox:SetChecked ( UI.MSA_AFK_Alert_Checkbox.value )
 
@@ -100,13 +100,14 @@ UI.LoadUI = function()
         UI.MSA_AFK_Alert_Checkbox:SetHitRectInsets ( 0 , 0 - UI.MSA_AFK_Alert_Checkbox.Text:GetWidth() - 2 , 0 , 0 );
 
         -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
-        UI.MSA_AFK_Alert_Checkbox:SetPoint ( "RIGHT" , UI.MSA_AFK_Alert_Checkbox.Text , "LEFT" , -2 , 0 );
-        UI.MSA_AFK_Alert_Checkbox.Text:SetPoint("TOPRIGHT" , UI.MSA_Timer_Button , "BOTTOMRIGHT" , 0 , -6 );
+        UI.MSA_AFK_Alert_Checkbox:SetPoint ( "RIGHT" , UI.MSA_AFK_Alert_Checkbox.Text , "LEFT" , -1 , 0 );
+        UI.MSA_AFK_Alert_Checkbox.Text:SetPoint("TOPRIGHT" , UI.MSA_Timer_Button , "BOTTOMRIGHT" , -5 , -6 );
 
         -- Change the setting wether enabled or not
         UI.MSA_AFK_Alert_Checkbox:SetScript ( "OnClick" , function( self )
             MSA_save.afkAlarm[1] = self:GetChecked()
             UI.MSA_checkbox.value = MSA_save.afkAlarm[1];
+            UI.ForceSoundCheckBoxConfigure();
         end)
 
         UI.MSA_AFK_Alert_Checkbox:SetScript("OnEnter" , function( self )
@@ -124,6 +125,59 @@ UI.LoadUI = function()
 
     end
 
+    if not UI.MSA_AFK_ForceSound then
+
+        UI.MSA_AFK_ForceSound = CreateFrame ( "CheckButton" , "MSA_AFK_ForceSound" , ProfessionsFrame.CraftingPage , "InterfaceOptionsCheckButtonTemplate" )
+        UI.MSA_AFK_ForceSound.value = MSA_save.afkAlarm[4]
+        UI.MSA_AFK_ForceSound:SetChecked ( UI.MSA_AFK_ForceSound.value )
+
+        -- Text to the right of checkbox
+        UI.MSA_AFK_ForceSound.Text = UI.MSA_AFK_ForceSound:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.MSA_AFK_ForceSound.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
+        UI.MSA_AFK_ForceSound.Text:SetText( "Force Audio" )
+        UI.MSA_AFK_ForceSound.Text:SetPoint( "LEFT" , UI.MSA_AFK_ForceSound, "RIGHT" , 1 , 0 )
+
+        -- Normalize the click area of check button to length of the text
+        UI.MSA_AFK_ForceSound:SetHitRectInsets ( 0 , 0 - UI.MSA_AFK_ForceSound.Text:GetWidth() - 2 , 0 , 0 );
+
+        -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
+        UI.MSA_AFK_ForceSound:SetPoint ( "TOPLEFT" , UI.MSA_AFK_Alert_Checkbox , "BOTTOMLEFT" , -9 , 1 );
+
+        -- Change the setting wether enabled or not
+        UI.MSA_AFK_ForceSound:SetScript ( "OnClick" , function( self )
+            MSA_save.afkAlarm[4] = self:GetChecked()
+            UI.MSA_checkbox.value = MSA_save.afkAlarm[4];
+        end)
+
+        UI.MSA_AFK_ForceSound:SetScript("OnEnter" , function( self )
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:AddLine ( "Alerts will be heard even if sound is disabled." );
+            GameTooltip:Show();
+        end)
+
+        UI.MSA_AFK_ForceSound:SetScript ( "OnLeave" , function()
+            GameTooltip:Hide()
+        end)
+
+        UI.ForceSoundCheckBoxConfigure();
+
+    end
+
+end
+
+-- UI Feature to grey out the checkbox when it doesn't apply.
+UI.ForceSoundCheckBoxConfigure = function()
+    if UI.MSA_AFK_ForceSound then
+        if MSA_save.afkAlarm[1] then
+            UI.MSA_AFK_ForceSound:Enable();
+            UI.MSA_AFK_ForceSound.Text:SetTextColor ( 1 , .82 , 0 );
+
+        else
+            UI.MSA_AFK_ForceSound:Disable();
+            UI.MSA_AFK_ForceSound.Text:SetTextColor ( 0.5 , .5 , 0.5 );
+
+        end
+    end
 end
 
 ----------------------------
