@@ -1,4 +1,4 @@
-## **Mass Salvage Assist - Version 1.0.14 - Jan 24th, 2025
+## **Mass Salvage Assist - Version 1.0.14 - Jan 24th, 2025**
 
 ***NEW SETTINGS CHOICES AND DESIGN***
 
