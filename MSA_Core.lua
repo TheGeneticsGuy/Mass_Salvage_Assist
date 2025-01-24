@@ -41,8 +41,10 @@ local LoadSettings = function( reset_settings )
         MSA_save.buff_expire_sound = { true , "Interface\\AddOns\\Mass_Salvage_Assist\\media\\sounds\\BellTollAlliance.ogg" }   -- Default file
     end
 
-    if MSA_save.afkAlarm == nil then
-        MSA_save.afkAlarm = { true , "ALARM_CLOCK_WARNING_3" , "RAID_WARNING" , true };     -- ind4 = Force Sound
+    if MSA_save.afkAlarm == nil or #MSA_save.afkAlarm ~= 6 then
+
+        MSA_save.afkAlarm = { true , "ALARM_CLOCK_WARNING_3" , true , "RAID_WARNING" , true , true };   -- AFKSoundEnabled, sound1, enabled, sound2, enabled, forceSound
+
     end
 end
 

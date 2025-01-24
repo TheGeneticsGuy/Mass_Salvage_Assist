@@ -1,8 +1,23 @@
-## **Mass Salvage Assist - Version 1.0.13 - Jan 9th, 2024
+## **Mass Salvage Assist - Version 1.0.14 - Jan 24th, 2025
+
+***NEW SETTINGS CHOICES AND DESIGN***
+
+* AFK alert sound on/off toggles added
+
+* Serttings popout window is mouseover and a little cleaner. You can freeze it by clicking '>' button, but you don't need to.
+
+![AFK Timer Settings](https://i.imgur.com/vSKJPJL.jpeg)
+
+***BUG FIXES***
+
+* After the 20 second offline countdown AFK timer starts, when you hit cancel, in some cases the "Craft nonstop" checkbox would disappear until you clicked to another recipe and back to the one you were doing. This should now properly keep the checkbox visible.
+
+
+## **Mass Salvage Assist - Version 1.0.13 - Jan 9th, 2025
 
 *Update on the AFK Alert - Added an option to bypass sound being disabled.I would rather be crafting silent in the background and the ONLY sound I hear is the alert. You can choose to bypass or to not. It will bypass both the Effects being disabled (Ctrl-s) or even if all sound is disbaled.*
 
-## **Mass Salvage Assist - Version 1.0.12 - Jan 8th, 2024
+## **Mass Salvage Assist - Version 1.0.12 - Jan 8th, 2025
 
 ***NEW FEATURE***
 

@@ -407,7 +407,12 @@ Crafting.EndingTooSoon = function( craft_id )
     local schematics = C_TradeSkillUI.GetRecipeSchematic(craft_id,false).reagentSlotSchematics
 
     if schematics and #schematics > 0 then
-        local reagentName = schematics[1].slotInfo.slotText;
+        local reagentName = "";
+
+        if schematics[1].slotInfo and schematics[1].slotInfo.slotText then
+            reagentName = schematics[1].slotInfo.slotText;
+        end
+
         print( string.format ("MSA - Crating has ended prematurely on a complex salvage recipe with multiple reagents. Checking stacks of secondary %s reagent. One moment..." , reagentName ) );
         local secondaryReagents = {};
         local id = 0;

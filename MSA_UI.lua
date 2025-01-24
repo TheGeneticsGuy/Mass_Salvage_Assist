@@ -2,6 +2,7 @@
 
 local UI = {};
 MSA.UI = UI;
+MSA.UI.AFK_Craft_ID = 0;     -- Holds ID for when logoff countdown messes with profession
 
 -- Holds GUI frame load configuration details
 UI.LoadUI = function()
@@ -46,10 +47,14 @@ UI.LoadUI = function()
         local Checkbox_Tracker = CreateFrame ( "Frame" );
         Checkbox_Tracker:RegisterEvent ( "SPELL_DATA_LOAD_RESULT" );
         Checkbox_Tracker.craft_id = 0;
+
         Checkbox_Tracker:SetScript ( "OnEvent" , function( _ , _ , craft_id )
             if Checkbox_Tracker.craft_id ~= craft_id then
                 if not C_TradeSkillUI.IsRecipeRepeating() then
                     Checkbox_Tracker.craft_id = craft_id;       -- Do not want to overwrite this if player  is just flipping through spells when crafting
+                    if craft_id then
+                        MSA.UI.AFK_Craft_ID = craft_id;
+                    end
                 end
                 UI.Configure_Visiblity( craft_id );
             end
@@ -58,6 +63,7 @@ UI.LoadUI = function()
 
     end
 
+    -- Timer Open Button
     if not UI.MSA_Timer_Button then
         --- TIMER BUTTON
         UI.MSA_Timer_Button = CreateFrame ( "Button" , "MSA_Timer_Button" , ProfessionsFrame.CraftingPage.SchematicForm , "UIPanelButtonTemplate" );
@@ -85,32 +91,98 @@ UI.LoadUI = function()
 
     end
 
-    if not UI.MSA_AFK_Alert_Checkbox then
-        UI.MSA_AFK_Alert_Checkbox = CreateFrame ( "CheckButton" , "MSA_AFK_Alert_Checkbox" , ProfessionsFrame.CraftingPage , "InterfaceOptionsCheckButtonTemplate" )
-        UI.MSA_AFK_Alert_Checkbox.value = MSA_save.afkAlarm[1]
-        UI.MSA_AFK_Alert_Checkbox:SetChecked ( UI.MSA_AFK_Alert_Checkbox.value )
+    -- Mouseover Settings window
+    if not UI.MSA_ProfWindow_Settings then
+        UI.MSA_Settings_DirectionButton = CreateFrame ( "Button" , "FCF_GlobalInfoButton" , ProfessionsFrame.CraftingPage , "GameMenuButtonTemplate" );
+        UI.MSA_Settings_DirectionButton:SetSize ( 24 , 24);
+        UI.MSA_Settings_DirectionButton:SetPoint("TOPRIGHT" , UI.MSA_Timer_Button , "BOTTOMRIGHT" , 0 , -5 );
+        UI.MSA_Settings_DirectionButton:SetText( ">" );
+
+        UI.MSA_Settings_DirectionButton:SetScript ( "OnEnter" , function( self )
+            UI.MSA_ProfWindow_Settings:Show();
+
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:AddLine ( "MSA AFK ALERT" , 1 , 0 , 0 );
+            GameTooltip:Show();
+
+        end)
+
+        UI.MSA_Settings_DirectionButton:SetScript("OnLeave" , function()
+            if not UI.MSA_ProfWindow_Settings.locked and not UI.MSA_ProfWindow_Settings:IsMouseOver(1, -1, -20, 1) then
+                UI.MSA_ProfWindow_Settings:Hide();
+            end
+
+            GameTooltip:Hide();
+        end)
+
+        UI.MSA_Settings_DirectionButton:SetScript("OnClick" , function( _ , button )
+            if button == "LeftButton" then
+                UI.MSA_ProfWindow_Settings.locked = true;
+            end
+        end)
+
+        UI.MSA_ProfWindow_Settings = CreateFrame ( "Frame" , "MSA_ProfWindow_Settings" , UI.MSA_Settings_DirectionButton , "TranslucentFrameTemplate" );
+        UI.MSA_ProfWindow_Settings.CloseButton = CreateFrame ("Button" , nil ,  UI.MSA_ProfWindow_Settings , "UIPanelCloseButton" );
+        UI.MSA_ProfWindow_Settings:Hide();
+
+        -- Vartiable for control to lock frame open if needed
+        UI.MSA_ProfWindow_Settings.locked = false;
+        UI.MSA_ProfWindow_Settings.timer = 0;
+
+         -- Frame Details
+         UI.MSA_ProfWindow_Settings:SetPoint( "TOPLEFT" , UI.MSA_Timer_Button , "TOPRIGHT" , 10 , 0 );
+         UI.MSA_ProfWindow_Settings:SetSize( 400 , 140 );
+         UI.MSA_ProfWindow_Settings:EnableMouse ( true );
+         UI.MSA_ProfWindow_Settings:SetToplevel ( true );
+
+         UI.MSA_ProfWindow_Settings:SetFrameStrata("TOOLTIP");
+
+         -- Close Button
+         UI.MSA_ProfWindow_Settings.CloseButton:SetPoint( "TOPRIGHT" , UI.MSA_ProfWindow_Settings , "TOPRIGHT" , -4 , -4 );
+         UI.MSA_ProfWindow_Settings.CloseButton:SetSize ( 26 , 26 );
+
+         UI.MSA_ProfWindow_Settings:SetScript ( "OnHide" , function( self )
+            self.locked = false;
+         end);
+
+         UI.MSA_ProfWindow_Settings:SetScript("OnUpdate" , function( self , elapsed )
+            self.timer = self.timer + elapsed;
+            if self.timer > 0.1 then
+
+                if not self.locked and not self:IsMouseOver(1, -1, -20, 1) and not UI.MSA_Settings_DirectionButton:IsMouseOver() then
+                    self:Hide();
+                end
+
+                self.timer = 0;
+            end
+        end)
+
+    end
+
+    -- AFK Alert Checkbox
+    if not UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox then
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox = CreateFrame ( "CheckButton" , "MSA_AFK_Alert_Checkbox" , UI.MSA_ProfWindow_Settings , "InterfaceOptionsCheckButtonTemplate" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.value = MSA_save.afkAlarm[1]
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:SetChecked ( UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.value );
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:SetPoint ( "TOPLEFT" , UI.MSA_ProfWindow_Settings , "TOPLEFT" , 15 , - 15 );
 
         -- Text to the right of checkbox
-        UI.MSA_AFK_Alert_Checkbox.Text = UI.MSA_AFK_Alert_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_AFK_Alert_Checkbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
-        UI.MSA_AFK_Alert_Checkbox.Text:SetText( "AFK Alert" )
-        -- UI.MSA_AFK_Alert_Checkbox.Text:SetPoint( "LEFT" , UI.MSA_AFK_Alert_Checkbox, "RIGHT" , 2 , 0 )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetText( "AFK Alert" );
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox, "RIGHT" , 2 , 0 )
 
         -- Normalize the click area of check button to length of the text
-        UI.MSA_AFK_Alert_Checkbox:SetHitRectInsets ( 0 , 0 - UI.MSA_AFK_Alert_Checkbox.Text:GetWidth() - 2 , 0 , 0 );
-
-        -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
-        UI.MSA_AFK_Alert_Checkbox:SetPoint ( "RIGHT" , UI.MSA_AFK_Alert_Checkbox.Text , "LEFT" , -1 , 0 );
-        UI.MSA_AFK_Alert_Checkbox.Text:SetPoint("TOPRIGHT" , UI.MSA_Timer_Button , "BOTTOMRIGHT" , -5 , -6 );
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:SetHitRectInsets ( 0 , 0 - UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:GetWidth() - 2 , 0 , 0 );
 
         -- Change the setting wether enabled or not
-        UI.MSA_AFK_Alert_Checkbox:SetScript ( "OnClick" , function( self )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:SetScript ( "OnClick" , function( self )
             MSA_save.afkAlarm[1] = self:GetChecked()
             UI.MSA_checkbox.value = MSA_save.afkAlarm[1];
             UI.ForceSoundCheckBoxConfigure();
         end)
 
-        UI.MSA_AFK_Alert_Checkbox:SetScript("OnEnter" , function( self )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:SetScript("OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
             GameTooltip:AddLine ( "MSA AFK ALERT" , 1 , 0 , 0 );
             GameTooltip:AddLine ( ' ' );
@@ -119,43 +191,119 @@ UI.LoadUI = function()
             GameTooltip:Show();
         end)
 
-        UI.MSA_AFK_Alert_Checkbox:SetScript ( "OnLeave" , function()
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:SetScript ( "OnLeave" , function()
             GameTooltip:Hide()
         end)
 
     end
 
-    if not UI.MSA_AFK_ForceSound then
+    if not UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1 then
 
-        UI.MSA_AFK_ForceSound = CreateFrame ( "CheckButton" , "MSA_AFK_ForceSound" , ProfessionsFrame.CraftingPage , "InterfaceOptionsCheckButtonTemplate" )
-        UI.MSA_AFK_ForceSound.value = MSA_save.afkAlarm[4]
-        UI.MSA_AFK_ForceSound:SetChecked ( UI.MSA_AFK_ForceSound.value )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1 = CreateFrame ( "CheckButton" , "MSA_AFK_Sound1" , UI.MSA_ProfWindow_Settings , "InterfaceOptionsCheckButtonTemplate" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.value = MSA_save.afkAlarm[3]
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetChecked ( UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.value )
 
         -- Text to the right of checkbox
-        UI.MSA_AFK_ForceSound.Text = UI.MSA_AFK_ForceSound:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_AFK_ForceSound.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
-        UI.MSA_AFK_ForceSound.Text:SetText( "Force Audio" )
-        UI.MSA_AFK_ForceSound.Text:SetPoint( "LEFT" , UI.MSA_AFK_ForceSound, "RIGHT" , 1 , 0 )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetText( "Play Sound When Player Goes AFK" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
-        UI.MSA_AFK_ForceSound:SetHitRectInsets ( 0 , 0 - UI.MSA_AFK_ForceSound.Text:GetWidth() - 2 , 0 , 0 );
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetHitRectInsets ( 0 , 0 - UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:GetWidth() - 2 , 0 , 0 );
 
         -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
-        UI.MSA_AFK_ForceSound:SetPoint ( "TOPLEFT" , UI.MSA_AFK_Alert_Checkbox , "BOTTOMLEFT" , -9 , 1 );
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetPoint ( "TOPLEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox , "BOTTOMRIGHT" , 0 , -3 );
 
         -- Change the setting wether enabled or not
-        UI.MSA_AFK_ForceSound:SetScript ( "OnClick" , function( self )
-            MSA_save.afkAlarm[4] = self:GetChecked()
-            UI.MSA_checkbox.value = MSA_save.afkAlarm[4];
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetScript ( "OnClick" , function( self )
+            MSA_save.afkAlarm[3] = self:GetChecked()
+            self.value = MSA_save.afkAlarm[3];
         end)
 
-        UI.MSA_AFK_ForceSound:SetScript("OnEnter" , function( self )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetScript("OnEnter" , function( self )
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:AddLine ( "Sound will trigger only during nonstop crafting." );
+            GameTooltip:Show();
+        end)
+
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetScript ( "OnLeave" , function()
+            GameTooltip:Hide()
+        end)
+
+        UI.ForceSoundCheckBoxConfigure();
+
+    end
+
+    if not UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2 then
+
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2 = CreateFrame ( "CheckButton" , "MSA_AFK_Sound2" , UI.MSA_ProfWindow_Settings , "InterfaceOptionsCheckButtonTemplate" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.value = MSA_save.afkAlarm[5]
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:SetChecked ( UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.value )
+
+        -- Text to the right of checkbox
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetText( "Play Sound When Offline Countdown Timer Begins" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2, "RIGHT" , 1 , 0 )
+
+        -- Normalize the click area of check button to length of the text
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:SetHitRectInsets ( 0 , 0 - UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:GetWidth() - 2 , 0 , 0 );
+
+        -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:SetPoint ( "TOPLEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1 , "BOTTOMLEFT" , 0 , -3 );
+
+        -- Change the setting wether enabled or not
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:SetScript ( "OnClick" , function( self )
+            MSA_save.afkAlarm[5] = self:GetChecked()
+            self.value = MSA_save.afkAlarm[5];
+        end)
+
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:SetScript("OnEnter" , function( self )
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:AddLine ( "Sound will trigger only during nonstop crafting." );
+            GameTooltip:Show();
+        end)
+
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:SetScript ( "OnLeave" , function()
+            GameTooltip:Hide()
+        end)
+
+        UI.ForceSoundCheckBoxConfigure();
+
+    end
+
+    if not UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound then
+
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound = CreateFrame ( "CheckButton" , "MSA_AFK_ForceSound" , UI.MSA_ProfWindow_Settings , "InterfaceOptionsCheckButtonTemplate" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.value = MSA_save.afkAlarm[6]
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:SetChecked ( UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.value )
+
+        -- Text to the right of checkbox
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetText( "Force Audio" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound, "RIGHT" , 1 , 0 )
+
+        -- Normalize the click area of check button to length of the text
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:SetHitRectInsets ( 0 , 0 - UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:GetWidth() - 2 , 0 , 0 );
+
+        -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:SetPoint ( "TOPLEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2 , "BOTTOMLEFT" , 0 , -3 );
+
+        -- Change the setting wether enabled or not
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:SetScript ( "OnClick" , function( self )
+            MSA_save.afkAlarm[6] = self:GetChecked()
+            UI.MSA_checkbox.value = MSA_save.afkAlarm[6];
+        end)
+
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:SetScript("OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
             GameTooltip:AddLine ( "Alerts will be heard even if sound is disabled." );
             GameTooltip:Show();
         end)
 
-        UI.MSA_AFK_ForceSound:SetScript ( "OnLeave" , function()
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:SetScript ( "OnLeave" , function()
             GameTooltip:Hide()
         end)
 
@@ -167,14 +315,22 @@ end
 
 -- UI Feature to grey out the checkbox when it doesn't apply.
 UI.ForceSoundCheckBoxConfigure = function()
-    if UI.MSA_AFK_ForceSound then
+    if UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound then
         if MSA_save.afkAlarm[1] then
-            UI.MSA_AFK_ForceSound:Enable();
-            UI.MSA_AFK_ForceSound.Text:SetTextColor ( 1 , .82 , 0 );
+            UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:Enable();
+            UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetTextColor ( 1 , .82 , 0 );
+            UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:Enable();
+            UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetTextColor ( 1 , .82 , 0 );
+            UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:Enable();
+            UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetTextColor ( 1 , .82 , 0 );
 
         else
-            UI.MSA_AFK_ForceSound:Disable();
-            UI.MSA_AFK_ForceSound.Text:SetTextColor ( 0.5 , .5 , 0.5 );
+            UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:Disable();
+            UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetTextColor ( 0.5 , .5 , 0.5 );
+            UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:Disable();
+            UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetTextColor ( 0.5 , .5 , 0.5 );
+            UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:Disable();
+            UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetTextColor ( 0.5 , .5 , 0.5 );
 
         end
     end
@@ -455,7 +611,7 @@ UI.Hide_Special_Frames = function ( bypass_id )
     end
 end
 
--- Method:          UI.Configure_Visiblity( nil )
+-- Method:          UI.Configure_Visiblity( int )
 -- What it Does:    Shows or hides the checkbox for mass crafting depending on prfession and spell
 -- Purpose:         Only show checkbox when necessary.
 UI.Configure_Visiblity = function( craft_id )
@@ -473,4 +629,3 @@ UI.Configure_Visiblity = function( craft_id )
         UI.Hide_Special_Frames(craft_id);
     end
 end
-

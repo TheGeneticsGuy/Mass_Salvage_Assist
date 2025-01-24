@@ -4,6 +4,9 @@ local AFK = {};
 AFK.TimeSinceCraft = 0;     -- For the 20 second countdown, I only want this to go off if the countdown timer is within a few seeconds of crafting.
 MSA.AFK = AFK;
 
+-- For controlling a listener
+local popUpConfigured = false;
+
 -- Register events
 local Listener = CreateFrame("Frame");
 Listener:RegisterEvent("PLAYER_FLAGS_CHANGED")
@@ -20,11 +23,11 @@ Listener:SetScript("OnEvent", function(self, event, unit )
             isAFK = true
 
             -- Play first alert for simple AFK - not logout
-            if MSA_save.afkAlarm[1] and C_TradeSkillUI.IsRecipeRepeating() then      -- Only play if going afk.
+            if MSA_save.afkAlarm[1] and MSA_save.afkAlarm[3] and C_TradeSkillUI.IsRecipeRepeating() then      -- Only play if going afk.
                 local soundEnabled = GetCVar("Sound_EnableAllSound")
                 local soundSFX = GetCVar("Sound_EnableSFX")
 
-                if MSA_save.afkAlarm[4] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
                     SetCVar("Sound_EnableAllSound", 1);
                     SetCVar("Sound_EnableSFX", 1);
                 end
@@ -33,7 +36,7 @@ Listener:SetScript("OnEvent", function(self, event, unit )
                 print("MSA Warning! AFK while crafting." );
 
                 -- Restore the sound
-                if MSA_save.afkAlarm[4] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
                     C_Timer.After(1, function()
                         SetCVar("Sound_EnableAllSound", soundEnabled)
                         SetCVar("Sound_EnableSFX", soundSFX);
@@ -50,27 +53,37 @@ Listener:SetScript("OnEvent", function(self, event, unit )
         -- Initialize state when loading
         isAFK = UnitIsAFK("player")
 
-    elseif event == "UNIT_FLAGS" and MSA_save.afkAlarm[1] and ( time() - MSA.AFK.TimeSinceCraft ) <= 5 then
+    elseif event == "UNIT_FLAGS" and MSA_save.afkAlarm[1] and MSA_save.afkAlarm[5] and ( time() - MSA.AFK.TimeSinceCraft ) <= 5 then
         if unit == "player" and isAFK then
             -- Need to give some time for popup to show and build the fontstring.
             C_Timer.After ( 1 , function()
-                if StaticPopup1:IsVisible() then
+                if StaticPopup1 and StaticPopup1:IsVisible() then
                     local num = StaticPopup1Text:GetText():match("%d%d");
                     if num and tonumber ( num ) <= 20 then
 
                         local soundEnabled = GetCVar("Sound_EnableAllSound")
                         local soundSFX = GetCVar("Sound_EnableSFX")
 
-                        if MSA_save.afkAlarm[4] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                        if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
                             SetCVar("Sound_EnableAllSound", 1);
                             SetCVar("Sound_EnableSFX", 1);
                         end
 
-                        PlaySound(SOUNDKIT[MSA_save.afkAlarm[3]] , "SFX")
-                        print("MSA WARNING - COUNTDOWN TO LOGOFF TRIGGERED!!!")
+                        PlaySound(SOUNDKIT[MSA_save.afkAlarm[4]] , "SFX")
+                        print("MSA WARNING - COUNTDOWN TO LOGOFF TRIGGERED!!!");
+
+                        if not popUpConfigured and ProfessionsFrame and ProfessionsFrame.CraftingPage and ProfessionsFrame.CraftingPage:IsVisible() then
+                            popUpConfigured = true;
+
+                            StaticPopup1:HookScript ( "OnHide" , function()
+                                if ProfessionsFrame.CraftingPage:IsVisible() then
+                                    MSA.UI.Configure_Visiblity ( MSA.UI.AFK_Craft_ID );
+                                end
+                            end);
+                        end
 
                         -- Restore the sound
-                        if MSA_save.afkAlarm[4] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                        if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
                             C_Timer.After(1, function()
                                 SetCVar("Sound_EnableAllSound", soundEnabled)
                                 SetCVar("Sound_EnableSFX", soundSFX);
@@ -83,3 +96,4 @@ Listener:SetScript("OnEvent", function(self, event, unit )
         end
     end
 end)
+
