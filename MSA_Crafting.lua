@@ -453,6 +453,12 @@ Crafting.DelayedStacking = function ( reagentsToStack , craft_id )
         end
 
         local i = #reagentsToStack;
+
+        -- Error protection
+        if not i then
+            return;
+        end
+
         -- Combining all 2ndary stacks.
         local itemLink = select ( 2 , GetItemInfo ( reagentsToStack[i][1] ) );
         if itemLink then

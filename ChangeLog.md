@@ -1,3 +1,12 @@
+## **Mass Salvage Assist - Version 1.0.15 - Feb 26th, 2025**
+
+**Compatibilty Release - 11.1**
+
+*Please note, I will be adding some quality of life settings updates soon, just been occupied with another one of my addons. I noticed some annoying things I want to clean up. Possibly some other bug fixes too. keep the reports coming to discord. RL is a bit busy atm, so I will get to it when I have time, but I will at least get to it eventually. TY!*
+
+* Oh and, I added the addon sorting category to be Professions, where you will find Mass Salvage Assist now.
+
+
 ## **Mass Salvage Assist - Version 1.0.14 - Jan 24th, 2025**
 
 ***NEW SETTINGS CHOICES AND DESIGN***
