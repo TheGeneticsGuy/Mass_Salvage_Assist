@@ -1,3 +1,8 @@
+## **Mass Salvage Assist - Version 1.0.16 - Feb 26th, 2025**
+
+* Updated the .toc for 11.1 compatibility - Oops! missed that. Thanks @Finegorko
+
+
 ## **Mass Salvage Assist - Version 1.0.15 - Feb 26th, 2025**
 
 **Compatibilty Release - 11.1**
