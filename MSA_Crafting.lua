@@ -413,6 +413,11 @@ Crafting.EndingTooSoon = function( craft_id )
             reagentName = schematics[1].slotInfo.slotText;
         end
 
+        -- This keeps string formatting useful.
+        if not reagentName then
+            reagentName = "";
+        end
+
         print( string.format ("MSA - Crating has ended prematurely on a complex salvage recipe with multiple reagents. Checking stacks of secondary %s reagent. One moment..." , reagentName ) );
         local secondaryReagents = {};
         local id = 0;
@@ -434,7 +439,11 @@ Crafting.EndingTooSoon = function( craft_id )
         else
             C_Timer.After ( 1 , function()
                 -- Delay is so messaging isn't too spammy.
-                print("No secondary reagent stacks to combine. Please check your available %s and start again.");
+                if not reagentName or reagentName == "" then
+                    print( string.format ("No secondary reagent stacks to combine. Please check your available reagents and start again." , reagentName ) )
+                else
+                    print( string.format ("No secondary reagent stacks to combine. Please check your available %s and start again." , reagentName ) );
+                end
             end);
         end
     else
@@ -455,7 +464,7 @@ Crafting.DelayedStacking = function ( reagentsToStack , craft_id )
         local i = #reagentsToStack;
 
         -- Error protection
-        if not i then
+        if not i or i == 0 then
             return;
         end
 

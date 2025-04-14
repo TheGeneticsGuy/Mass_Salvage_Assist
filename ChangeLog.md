@@ -1,3 +1,9 @@
+## **Mass Salvage Assist - Version 1.0.17 - April 14th, 2025**
+
+* Fixed a slight bug that will happen when at the end of salvaging duel item recipes and there is no stacks left.
+
+* Fixed a messaging error where it was not formatting a string correctly including the name of the reagent when you ran out of the 2ndary reagent for salvaging recipes that use 2 reagents, like JC Crushing.
+
 ## **Mass Salvage Assist - Version 1.0.16 - Feb 26th, 2025**
 
 * Updated the .toc for 11.1 compatibility - Oops! missed that. Thanks @Finegorko

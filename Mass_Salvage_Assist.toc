@@ -2,7 +2,7 @@
 
 ## Title: Mass Salvage Assist
 ## Author: TheGenomeWhisperer (Arkaan-Zul'jin)
-## Version: 1.0.15
+## Version: 1.0.17
 ## Notes: Mass Salvage without error or interruption
 ## Category: Professions
 ## Category-ruRU: Профессии
