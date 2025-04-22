@@ -1,3 +1,7 @@
+## **Mass Salvage Assist - Version 1.0.18 - April 22nd, 2025**
+
+* Compatibility Release - 11.1.5
+
 ## **Mass Salvage Assist - Version 1.0.17 - April 14th, 2025**
 
 * Fixed a slight bug that will happen when at the end of salvaging duel item recipes and there is no stacks left.
