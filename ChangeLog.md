@@ -1,3 +1,13 @@
+## **Mass Salvage Assist - Version 1.0.19 - April 22nd, 2025**
+
+* Compatibility Release - 11.1.7
+
+**NEW FEATURE - Thanks to @SteelWebWorks on Github**
+
+* Support for everburning ignition for blacksmiths. Crafting will now automatically stop if expired. A checkbox has been added to enable/disable.
+
+Thanks @SteelWebWorks!
+
 ## **Mass Salvage Assist - Version 1.0.18 - April 22nd, 2025**
 
 * Compatibility Release - 11.1.5
