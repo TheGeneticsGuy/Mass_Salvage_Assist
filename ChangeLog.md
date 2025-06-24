@@ -1,4 +1,4 @@
-## **Mass Salvage Assist - Version 1.0.19 - April 22nd, 2025**
+## **Mass Salvage Assist - Version 1.0.19 - June 24th, 2025**
 
 * Compatibility Release - 11.1.7
 
