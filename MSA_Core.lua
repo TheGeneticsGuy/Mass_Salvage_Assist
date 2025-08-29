@@ -52,7 +52,18 @@ local LoadSettings = function( reset_settings )
     if MSA_save.afkAlarm == nil or #MSA_save.afkAlarm ~= 6 then
 
         MSA_save.afkAlarm = { true , "ALARM_CLOCK_WARNING_3" , true , "RAID_WARNING" , true , true };   -- AFKSoundEnabled, sound1, enabled, sound2, enabled, forceSound
+    end
 
+    if MSA_save.flashClientIcon == nil then
+        MSA_save.flashClientIcon = false;
+    end
+
+    if MSA_save.flashClientIconAFK == nil then
+        MSA_save.flashClientIconAFK = false;
+    end
+
+    if MSA_save.flashClientIconLogOff == nil then
+        MSA_save.flashClientIconLogOff = false;
     end
 end
 

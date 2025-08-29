@@ -1,3 +1,10 @@
+## **Mass Salvage Assist - Version 1.0.21 - August 28th, 2025**
+
+* Added a new setting on the timer to now trigger a desktop icon flash if you are tabbed out of the game and you go AFK or are logging off. Configure it how you want.
+
+![Desktop Icon Flash](https://i.imgur.com/PcLyAuh.jpeg)
+
+
 ## **Mass Salvage Assist - Version 1.0.20 - August 6th, 2025**
 
 * Compatibility Release - 11.2

@@ -131,7 +131,7 @@ UI.LoadUI = function()
 
          -- Frame Details
          UI.MSA_ProfWindow_Settings:SetPoint( "TOPLEFT" , UI.MSA_Timer_Button , "TOPRIGHT" , 10 , 0 );
-         UI.MSA_ProfWindow_Settings:SetSize( 400 , 140 );
+         UI.MSA_ProfWindow_Settings:SetSize( 405 , 230 );
          UI.MSA_ProfWindow_Settings:EnableMouse ( true );
          UI.MSA_ProfWindow_Settings:SetToplevel ( true );
 
@@ -178,16 +178,16 @@ UI.LoadUI = function()
         -- Change the setting wether enabled or not
         UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:SetScript ( "OnClick" , function( self )
             MSA_save.afkAlarm[1] = self:GetChecked()
-            UI.MSA_checkbox.value = MSA_save.afkAlarm[1];
-            UI.ForceSoundCheckBoxConfigure();
+            UI.MSA_checkbox.value = MSA_save.afkAlarm[1]
+            UI.ForceSoundCheckBoxConfigure()
         end)
 
         UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:SetScript("OnEnter" , function( self )
-            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "MSA AFK ALERT" , 1 , 0 , 0 );
-            GameTooltip:AddLine ( ' ' );
-            GameTooltip:AddDoubleLine ( "Alert 1:", "Going AFK while crafting" );
-            GameTooltip:AddDoubleLine ( "Alert 2:", "20 Second offline countdown" );
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" )
+            GameTooltip:AddLine ( "MSA AFK ALERT" , 1 , 0 , 0 )
+            GameTooltip:AddLine ( ' ' )
+            GameTooltip:AddDoubleLine ( "Alert 1:", "Going AFK while crafting" )
+            GameTooltip:AddDoubleLine ( "Alert 2:", "20 Second offline countdown" )
             GameTooltip:Show();
         end)
 
@@ -205,24 +205,24 @@ UI.LoadUI = function()
 
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD")
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetText( "Play Sound When Player Goes AFK" )
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
-        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetHitRectInsets ( 0 , 0 - UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:GetWidth() - 2 , 0 , 0 );
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetHitRectInsets ( 0 , 0 - UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:GetWidth() - 2 , 0 , 0 )
 
         -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
-        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetPoint ( "TOPLEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox , "BOTTOMRIGHT" , 0 , -3 );
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetPoint ( "TOPLEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox , "BOTTOMRIGHT" , 0 , -3 )
 
         -- Change the setting wether enabled or not
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetScript ( "OnClick" , function( self )
             MSA_save.afkAlarm[3] = self:GetChecked()
-            self.value = MSA_save.afkAlarm[3];
+            self.value = MSA_save.afkAlarm[3]
         end)
 
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetScript("OnEnter" , function( self )
-            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" )
             GameTooltip:AddLine ( "Sound will trigger only during nonstop crafting." );
             GameTooltip:Show();
         end)
@@ -230,9 +230,6 @@ UI.LoadUI = function()
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetScript ( "OnLeave" , function()
             GameTooltip:Hide()
         end)
-
-        UI.ForceSoundCheckBoxConfigure();
-
     end
 
     if not UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2 then
@@ -256,7 +253,8 @@ UI.LoadUI = function()
         -- Change the setting wether enabled or not
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:SetScript ( "OnClick" , function( self )
             MSA_save.afkAlarm[5] = self:GetChecked()
-            self.value = MSA_save.afkAlarm[5];
+            self.value = MSA_save.afkAlarm[5]
+
         end)
 
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:SetScript("OnEnter" , function( self )
@@ -268,9 +266,6 @@ UI.LoadUI = function()
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:SetScript ( "OnLeave" , function()
             GameTooltip:Hide()
         end)
-
-        UI.ForceSoundCheckBoxConfigure();
-
     end
 
     if not UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound then
@@ -306,11 +301,116 @@ UI.LoadUI = function()
         UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:SetScript ( "OnLeave" , function()
             GameTooltip:Hide()
         end)
-
-        UI.ForceSoundCheckBoxConfigure();
-
     end
 
+    if not UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox then
+
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox = CreateFrame ( "CheckButton" , "MSA_FlashClientCheckbox" , UI.MSA_ProfWindow_Settings , "InterfaceOptionsCheckButtonTemplate" )
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.value = MSA_save.flashClientIcon
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:SetChecked ( UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.value )
+
+        -- Text to the right of checkbox
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text = UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetText( "Flash Desktop Icon" )
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox, "RIGHT" , 1 , 0 )
+
+        -- Normalize the click area of check button to length of the text
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:SetHitRectInsets ( 0 , 0 - UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:GetWidth() - 2 , 0 , 0 );
+
+        -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:SetPoint ( "TOPLEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound , "BOTTOMLEFT" , 0 , -3 );
+
+        -- Change the setting wether enabled or not
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:SetScript ( "OnClick" , function( self )
+            MSA_save.flashClientIcon = self:GetChecked()
+            UI.MSA_checkbox.value = MSA_save.flashClientIcon
+
+            UI.ConfigureFlashClientOptions()
+        end)
+
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:SetScript("OnEnter" , function( self )
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:AddLine ( "The WOW icon will only flash if not focused already." );
+            GameTooltip:Show();
+        end)
+
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:SetScript ( "OnLeave" , function()
+            GameTooltip:Hide()
+        end)
+    end
+
+    if not UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK then
+
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK = CreateFrame ( "CheckButton" , "MSA_flashClientIconAFK" , UI.MSA_ProfWindow_Settings , "InterfaceOptionsCheckButtonTemplate" )
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.value = MSA_save.flashClientIconAFK
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:SetChecked ( UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.value )
+
+        -- Text to the right of checkbox
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text = UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetText( "Flash When Player Goes AFK" )
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK, "RIGHT" , 1 , 0 )
+
+        -- Normalize the click area of check button to length of the text
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:SetHitRectInsets ( 0 , 0 - UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:GetWidth() - 2 , 0 , 0 );
+
+        -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:SetPoint ( "TOPLEFT" , UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox , "BOTTOMRIGHT" , 0 , -3 );
+
+        -- Change the setting wether enabled or not
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:SetScript ( "OnClick" , function( self )
+            MSA_save.flashClientIconAFK = self:GetChecked()
+            UI.MSA_checkbox.value = MSA_save.flashClientIconAFK
+        end)
+
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:SetScript("OnEnter" , function( self )
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:AddLine ( "The WOW icon will only flash if not focused already." );
+            GameTooltip:Show();
+        end)
+
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:SetScript ( "OnLeave" , function()
+            GameTooltip:Hide()
+        end)
+    end
+
+    if not UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff then
+
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff = CreateFrame ( "CheckButton" , "MSA_flashClientIconLogOff" , UI.MSA_ProfWindow_Settings , "InterfaceOptionsCheckButtonTemplate" )
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.value = MSA_save.flashClientIconLogOff
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:SetChecked ( UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.value )
+
+        -- Text to the right of checkbox
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text = UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetText( "Flash When Logoff Timer Begins" )
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff, "RIGHT" , 1 , 0 )
+
+        -- Normalize the click area of check button to length of the text
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:SetHitRectInsets ( 0 , 0 - UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:GetWidth() - 2 , 0 , 0 );
+
+        -- Ensures this is always to the left of the CreateAllButton, accounting for width of text also
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:SetPoint ( "TOPLEFT" , UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK , "BOTTOMLEFT" , 0 , -3 );
+
+        -- Change the setting wether enabled or not
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:SetScript ( "OnClick" , function( self )
+            MSA_save.flashClientIconLogOff = self:GetChecked()
+            UI.MSA_checkbox.value = MSA_save.flashClientIconLogOff
+        end)
+
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:SetScript("OnEnter" , function( self )
+            GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
+            GameTooltip:AddLine ( "The WOW icon will only flash if not focused already." );
+            GameTooltip:Show();
+        end)
+
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:SetScript ( "OnLeave" , function()
+            GameTooltip:Hide()
+        end)
+    end
+
+    UI.ForceSoundCheckBoxConfigure();
 end
 
 -- UI Feature to grey out the checkbox when it doesn't apply.
@@ -323,7 +423,10 @@ UI.ForceSoundCheckBoxConfigure = function()
             UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetTextColor ( 1 , .82 , 0 );
             UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:Enable();
             UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetTextColor ( 1 , .82 , 0 );
+            UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:Enable();
+            UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetTextColor ( 1 , .82 , 0 );
 
+            UI.ConfigureFlashClientOptions()
         else
             UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:Disable();
             UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetTextColor ( 0.5 , .5 , 0.5 );
@@ -331,8 +434,29 @@ UI.ForceSoundCheckBoxConfigure = function()
             UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetTextColor ( 0.5 , .5 , 0.5 );
             UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:Disable();
             UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetTextColor ( 0.5 , .5 , 0.5 );
-
+            UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:Disable();
+            UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetTextColor ( 0.5 , .5 , 0.5 );
+            UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:Disable();
+            UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetTextColor ( 0.5 , .5 , 0.5 );
+            UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:Disable();
+            UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetTextColor ( 0.5 , .5 , 0.5 );
         end
+    end
+
+end
+
+-- For configuring the checkbox option
+UI.ConfigureFlashClientOptions = function()
+    if MSA_save.flashClientIcon then
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:Enable();
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetTextColor ( 1 , .82 , 0 );
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:Enable();
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetTextColor ( 1 , .82 , 0 );
+    else
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:Disable();
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetTextColor ( 0.5 , .5 , 0.5 );
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:Disable();
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetTextColor ( 0.5 , .5 , 0.5 );
     end
 end
 

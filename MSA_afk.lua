@@ -23,24 +23,32 @@ Listener:SetScript("OnEvent", function(self, event, unit )
             isAFK = true
 
             -- Play first alert for simple AFK - not logout
-            if MSA_save.afkAlarm[1] and MSA_save.afkAlarm[3] and C_TradeSkillUI.IsRecipeRepeating() then      -- Only play if going afk.
-                local soundEnabled = GetCVar("Sound_EnableAllSound")
-                local soundSFX = GetCVar("Sound_EnableSFX")
-
-                if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
-                    SetCVar("Sound_EnableAllSound", 1);
-                    SetCVar("Sound_EnableSFX", 1);
-                end
-
-                PlaySound(SOUNDKIT[MSA_save.afkAlarm[2]] , "SFX");
+            if ( ( MSA_save.afkAlarm[1] and MSA_save.afkAlarm[3] ) or ( MSA_save.flashClientIcon and MSA_save.flashClientIconAFK ) ) and C_TradeSkillUI.IsRecipeRepeating() then      -- Only play if going afk.
                 print("MSA Warning! AFK while crafting." );
 
-                -- Restore the sound
-                if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
-                    C_Timer.After(1, function()
-                        SetCVar("Sound_EnableAllSound", soundEnabled)
-                        SetCVar("Sound_EnableSFX", soundSFX);
-                    end)
+                if MSA_save.afkAlarm[1] and MSA_save.afkAlarm[3] then
+                    local soundEnabled = GetCVar("Sound_EnableAllSound")
+                    local soundSFX = GetCVar("Sound_EnableSFX")
+
+                    if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                        SetCVar("Sound_EnableAllSound", 1);
+                        SetCVar("Sound_EnableSFX", 1);
+                    end
+
+                    PlaySound(SOUNDKIT[MSA_save.afkAlarm[2]] , "SFX");
+
+                    -- Restore the sound
+                    if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                        C_Timer.After(1, function()
+                            SetCVar("Sound_EnableAllSound", soundEnabled)
+                            SetCVar("Sound_EnableSFX", soundSFX);
+                        end)
+                    end
+                end
+
+                -- Flash the Desktop icon if tabbed off
+                if MSA_save.flashClientIcon and MSA_save.flashClientIconAFK then
+                    FlashClientIcon()
                 end
 
             end
@@ -53,24 +61,39 @@ Listener:SetScript("OnEvent", function(self, event, unit )
         -- Initialize state when loading
         isAFK = UnitIsAFK("player")
 
-    elseif event == "UNIT_FLAGS" and MSA_save.afkAlarm[1] and MSA_save.afkAlarm[5] and ( time() - MSA.AFK.TimeSinceCraft ) <= 5 then
+    elseif event == "UNIT_FLAGS" and ( ( MSA_save.afkAlarm[1] and MSA_save.afkAlarm[5] ) or ( MSA_save.flashClientIcon and MSA_save.flashClientIconLogOff ) ) and ( time() - MSA.AFK.TimeSinceCraft ) <= 5 then
         if unit == "player" and isAFK then
             -- Need to give some time for popup to show and build the fontstring.
             C_Timer.After ( 1 , function()
                 if StaticPopup1 and StaticPopup1:IsVisible() then
                     local num = StaticPopup1Text:GetText():match("%d%d");
                     if num and tonumber ( num ) <= 20 then
+                        print("MSA WARNING - COUNTDOWN TO LOGOFF TRIGGERED!!!");
 
-                        local soundEnabled = GetCVar("Sound_EnableAllSound")
-                        local soundSFX = GetCVar("Sound_EnableSFX")
+                        if MSA_save.afkAlarm[1] and MSA_save.afkAlarm[5] then
+                            local soundEnabled = GetCVar("Sound_EnableAllSound")
+                            local soundSFX = GetCVar("Sound_EnableSFX")
 
-                        if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
-                            SetCVar("Sound_EnableAllSound", 1);
-                            SetCVar("Sound_EnableSFX", 1);
+                            if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                                SetCVar("Sound_EnableAllSound", 1);
+                                SetCVar("Sound_EnableSFX", 1);
+                            end
+
+                            PlaySound(SOUNDKIT[MSA_save.afkAlarm[4]] , "SFX")
+
+                            -- Restore the sound
+                            if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                                C_Timer.After(1, function()
+                                    SetCVar("Sound_EnableAllSound", soundEnabled)
+                                    SetCVar("Sound_EnableSFX", soundSFX);
+                                end)
+                            end
                         end
 
-                        PlaySound(SOUNDKIT[MSA_save.afkAlarm[4]] , "SFX")
-                        print("MSA WARNING - COUNTDOWN TO LOGOFF TRIGGERED!!!");
+                        -- Flash the Desktop icon if tabbed off
+                        if MSA_save.flashClientIcon and MSA_save.flashClientIconLogOff then
+                            FlashClientIcon()
+                        end
 
                         if not popUpConfigured and ProfessionsFrame and ProfessionsFrame.CraftingPage and ProfessionsFrame.CraftingPage:IsVisible() then
                             popUpConfigured = true;
@@ -82,13 +105,7 @@ Listener:SetScript("OnEvent", function(self, event, unit )
                             end);
                         end
 
-                        -- Restore the sound
-                        if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
-                            C_Timer.After(1, function()
-                                SetCVar("Sound_EnableAllSound", soundEnabled)
-                                SetCVar("Sound_EnableSFX", soundSFX);
-                            end)
-                        end
+
                     end
                 end
             end)
