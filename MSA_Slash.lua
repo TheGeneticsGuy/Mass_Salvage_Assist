@@ -132,7 +132,11 @@ SC.IsValid = function ( command )
 
     return isValid;
 end
-
+-- /run for x in pairs(ProfessionsFrame.CraftingPage.SchematicForm.Reagents) do print(x) end
+-- /run local ids=C_TradeSkillUI.GetSalvagableItemIDs(434020);for i=1,#ids do print(GetItemInfo(ids[i])) end
+-- /dump C_TradeSkillUI.GetCraftingReagentBonusText(434020)
+-- /dump C_TradeSkillUI.GetReagentSlotStatus(262,434020)
+-- /dump C_TradeSkillUI.GetRecipeSchematic(434020,false).reagentSlotSchematics
 -- Method:          SC.Is_Salvage_Recipe ( int )
 -- What it Does:    Returns true if a valid recipe
 -- Purpose:         Easy to check for slash commands if the spell given was valid.

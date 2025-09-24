@@ -149,6 +149,9 @@ CT.Initialize_Countdown = function( isRepeating )
                 window_triggered= false;
                 MSA.UI.CT_Core_Frame.Countdown_Text:SetText("");
                 MSA.UI.CT_Core_Frame:Hide();
+                C_Timer.After(1, function() -- For the reagent check I want it to not die immediately.
+                    MSA.Crafting.reagentQuality = {0,0};
+                end)
             end
         end)
     end

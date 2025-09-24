@@ -1,3 +1,12 @@
+## **Mass Salvage Assist - Version 1.0.22 - September 23rd, 2025**
+
+**Quality of Life Feature - Reagent quality protection**
+
+There is a known issue with Blizz's default frames that for some reason, when tabbing around and swapping tabs, occasionally your selected secondary required reagents would just switch on their own, like move from R3 Bismuth, to R2 Bismuth when crushing, automatically. This can happen with MSA installed or not. For example, in some instances you can trigger it by swapping between the crafting window and the specialization window and boom, R2 out of nowhere. Before you know it, you just crafted a ton of lower quality items maybe you didn't want.
+
+Well, MSA will now actively monitor the current nonstop crafting session and snapshot the Tier being used when starting, and if it deviates during crafting, either moving to a higher tier, or moving to a lower tier, crafting will immediately stop on its own and inform you that the selected quality has changed in the middle of crafting.
+
+
 ## **Mass Salvage Assist - Version 1.0.21 - August 28th, 2025**
 
 * Added a new setting on the timer to now trigger a desktop icon flash if you are tabbed out of the game and you go AFK or are logging off. Configure it how you want.

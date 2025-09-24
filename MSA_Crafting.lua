@@ -4,6 +4,7 @@ MSA.Crafting = Crafting;
 
 -- Useful globals I haven't put in a tablet yet...
 local combiningStacks = false;
+Crafting.reagentQuality = {0,0};
 
 local prof_id = 0;      -- For configuring the prof ID due to special unique considerations
 
@@ -307,6 +308,31 @@ end
 Crafting.CraftListener = function ( craft_id )
     if MSA_save.non_stop and not combiningStacks then
 
+        -- Quality Protection Logic on listening
+        -- Note, no need to check if this is a salvage recipe as it is checked in the event listener first
+        if Crafting.HasRequiredReagentSlots() then
+            local reagent2Quality = Crafting.GetRequiredReagentQuality();
+            if reagent2Quality then
+                if Crafting.reagentQuality[2] == 0 then
+                    Crafting.reagentQuality = { reagent2Quality[1], reagent2Quality[2] };
+
+                elseif Crafting.reagentQuality[2] ~= reagent2Quality[2] then
+                    if reagent2Quality[2] < Crafting.reagentQuality[2] then
+
+                        print(string.format("MSA has dedected that the quality of the required reagent has changed from R%d to R%d. Crafting has been stopped to prevent unwanted lower quality crafting. Please reselect %s and restart if you wish to continue." , Crafting.reagentQuality[2] , reagent2Quality[2], select(2, C_Item.GetItemInfo(Crafting.reagentQuality[1]) ) ) );
+
+                    elseif reagent2Quality[2] > Crafting.reagentQuality[2] then
+                        print(string.format("MSA has dedected that the quality of the required reagent has changed from R%d to R%d. Crafting has been stopped to prevent unwanted use of %s. Please reselect and restart if you wish to continue." , Crafting.reagentQuality[2] , reagent2Quality[2], select(2, C_Item.GetItemInfo(reagent2Quality[1]) ) ) );
+
+                    end
+
+                    Crafting.KillCrafting();
+                    Crafting.reagentQuality = {0,0};
+                    return;
+                end
+            end
+        end
+
         local remaining_casts = C_TradeSkillUI.GetRemainingRecasts()
         local minRemainingCasts = 25;
         local minStackToBegin = 150;
@@ -537,13 +563,7 @@ Crafting.Special_Considerations_Endpoint = function( craft_id )
 
             if MSA.UI.Special_Considerations_Table[MSA.UI.SPECIAL_TRADESKILLID[prof_id]][4] and not Crafting.Has_Buff( MSA.UI.Special_Considerations_Table[MSA.UI.SPECIAL_TRADESKILLID[prof_id]][3] ) then
 
-                C_TradeSkillUI.StopRecipeRepeat()
-                if MSA_save.buff_expire_sound[1] then
-                    PlaySoundFile( MSA_save.buff_expire_sound[2] , "Master" );
-                    C_Timer.After ( 0.5 , function()
-                        PlaySoundFile( MSA_save.buff_expire_sound[2] , "Master" );      -- Play twice for audio aesthetics
-                    end)
-                end
+                Crafting.KillCrafting();
                 print ("MSA - Crafting has ended prematurely because Shattered Essence buff is not present");
             end
 
@@ -553,4 +573,57 @@ Crafting.Special_Considerations_Endpoint = function( craft_id )
     end
 end
 
--- C_TradeSkillUI.GetSalvagableItemIDs(374627)  -- I'll use when building UI for item selection for all
+-------------------------
+-- QUALITY PROTECTION ---
+-------------------------
+
+Crafting.GetRequiredReagentTiers = function()
+    local reagentEnum = {};
+    local reagentSlots = ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots[1][1].reagentSlotSchematic.reagents;
+    for i = 1 , #reagentSlots do
+        reagentEnum[reagentSlots[i].itemID] = i;
+    end
+    return reagentEnum;
+end
+
+Crafting.GetRequiredReagent = function()
+    local ReagentQualityOptions = Crafting.GetRequiredReagentTiers();
+    local selectedReagentID = ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots[1][1].transaction.reagentTbls[1].allocations.allocs[1].reagent.itemID;
+    if selectedReagentID and ReagentQualityOptions then
+        return { selectedReagentID , ReagentQualityOptions[selectedReagentID] };
+    end
+    return;
+end
+
+Crafting.HasRequiredReagentSlots = function()
+    if ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots and ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots[1][1].reagentSlotSchematic.reagents then
+        return #ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots[1][1].reagentSlotSchematic.reagents > 0;
+    end
+    return;
+end
+
+-- Method:          Crafting.GetRequiredReagentQuality()
+-- What it Does:    Returns the required reagent quality if there are required reagent quality slots
+-- Purpose:         To prevent crafting if the required reagent quality changes which can happen when swapping tabs... oddly
+Crafting.GetRequiredReagentQuality = function()
+    if Crafting.HasRequiredReagentSlots() then
+        local requiredReagent = Crafting.GetRequiredReagent();
+        if requiredReagent then
+            return requiredReagent;
+        end
+    end
+    return;
+end
+
+-- Method:          Crafting.KillCrafting()
+-- What it Does:    Stops the crafting process
+-- Purpose:         To prevent crafting when a special condition is no longer met, like a buff expiring or quality changing
+Crafting.KillCrafting = function()
+    C_TradeSkillUI.StopRecipeRepeat()
+    if MSA_save.buff_expire_sound[1] then
+        PlaySoundFile( MSA_save.buff_expire_sound[2] , "Master" );
+        C_Timer.After ( 0.5 , function()
+            PlaySoundFile( MSA_save.buff_expire_sound[2] , "Master" );      -- Play twice for audio aesthetics
+        end)
+    end
+end
