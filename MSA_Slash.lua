@@ -341,5 +341,3 @@ SC.Help = function()
     print("- /msa timer      - Show or Hide the Crafting Timer")
     print("- /msa reset      - Resets timer position to default")
 end
-
--- /run ProfessionsFrame.CraftingPage.CraftingOutputLog:Cleanup()

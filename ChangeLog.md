@@ -1,3 +1,10 @@
+## **Mass Salvage Assist - Version 1.0.23 - September 24th, 2025**
+
+***BUG FIX***
+
+* Crafting like with Thaumaturgy was causing a Lua error to trigger due to a change in a previous update. This should no longer happen. Some people reported that crafting keeps failing over and over but I was not able to recreate that, but maybe it's cause I fixed the error too soon, so please let me know. Thanks!
+
+
 ## **Mass Salvage Assist - Version 1.0.22 - September 23rd, 2025**
 
 **Quality of Life Feature - Reagent quality protection**

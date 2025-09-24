@@ -596,7 +596,7 @@ Crafting.GetRequiredReagent = function()
 end
 
 Crafting.HasRequiredReagentSlots = function()
-    if ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots and ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots[1][1].reagentSlotSchematic.reagents then
+    if ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots and #ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots > 0 and ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots[1][1].reagentSlotSchematic.reagents then
         return #ProfessionsFrame.CraftingPage.SchematicForm.reagentSlots[1][1].reagentSlotSchematic.reagents > 0;
     end
     return;
