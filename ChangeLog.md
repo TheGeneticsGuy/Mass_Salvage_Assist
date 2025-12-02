@@ -1,3 +1,8 @@
+## **Mass Salvage Assist - Version 1.0.25 - December 2nd, 2025**
+
+*11.2.7 Compatibility Update*
+
+
 ## **Mass Salvage Assist - Version 1.0.24 - October 10th, 2025**
 
 *11.2.5 Compatibility Update*
