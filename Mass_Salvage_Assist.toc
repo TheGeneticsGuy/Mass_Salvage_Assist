@@ -1,8 +1,8 @@
-## Interface: 110207
+## Interface: 120000
 
 ## Title: Mass Salvage Assist
 ## Author: TheGenomeWhisperer (Arkaan-Zul'jin)
-## Version: 1.0.25
+## Version: 1.0.26
 ## Notes: Mass Salvage without error or interruption
 ## Category: Professions
 ## Category-ruRU: Профессии
