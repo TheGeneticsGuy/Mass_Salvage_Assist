@@ -25,7 +25,7 @@ end
 CT.formatTime = function(seconds)
     if seconds < 60 then
         -- Less than a minute
-        return string.format("%d seconds", seconds)
+        return MSA.L("{num1} seconds", nil, nil, seconds)
     end
 
     local hours = math.floor(seconds / 3600)
@@ -34,10 +34,10 @@ CT.formatTime = function(seconds)
 
     if hours > 0 then
         -- Has hours
-        return string.format("%d hrs, %d minutes, %d seconds", hours, minutes, remainingSeconds)
+        return MSA.L("{num1} hrs, {num2} minutes, {misc1} seconds", nil, nil, hours, minutes, remainingSeconds)
     else
         -- Just minutes and seconds
-        return string.format("%d minutes, %d seconds", minutes, remainingSeconds)
+        return MSA.L("{num1} minutes, {num2} seconds", minutes, remainingSeconds)
     end
 end
 
@@ -98,7 +98,7 @@ CT.Initialize_Countdown = function( isRepeating )
         countdown_running = true;
 
         if #CT.timer_table < 10 then
-            MSA.UI.CT_Core_Frame.Countdown_Text:SetText( "Calculating..." )
+            MSA.UI.CT_Core_Frame.Countdown_Text:SetText( MSA.L("Calculating...") )
         elseif MSA.UI.CT_Core_Frame.value == 0 then
             CT.Calculate_Remaining_Time();
         else

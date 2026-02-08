@@ -107,12 +107,12 @@ Crafting.CombineStacks = function( scrapSlot , itemID , forced , restart_craftin
         end
         combiningStacks = false;
         if special_msg then
-            print("MSA: Stacking has finished. Please restart" );
+            MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Stacking has finished. Please restart"));
         end
     end
 
     if restart_crafting and not C_TradeSkillUI.IsRecipeRepeating() then
-        print("MSA - Crafting has ended prematurely. Please restart and crafting will continue nonstop" )
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Crafting has ended prematurely. Please restart and crafting will continue nonstop"));
     end
 end
 
@@ -186,7 +186,7 @@ Crafting.GetSalveItemDetails = function( restart_crafting , craft_id )
         if itemDetails then
             -- Return nil if the item selected is not in your bags... as that is not helpful.
             if itemDetails.bagID < 0 or itemDetails.bagID > 5 then
-                print("MSA: This addon will only work with items selected within your bags. Please move items to your bags and re-select." );
+                MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("This addon will only work with items selected within your bags. Please move items to your bags and re-select."));
                 return;
             else
                 return { itemDetails.bagID , itemDetails.slotIndex , stack_count } , item_id;
@@ -319,10 +319,10 @@ Crafting.CraftListener = function ( craft_id )
                 elseif Crafting.reagentQuality[2] ~= reagent2Quality[2] then
                     if reagent2Quality[2] < Crafting.reagentQuality[2] then
 
-                        print(string.format("MSA has dedected that the quality of the required reagent has changed from R%d to R%d. Crafting has been stopped to prevent unwanted lower quality crafting. Please reselect %s and restart if you wish to continue." , Crafting.reagentQuality[2] , reagent2Quality[2], select(2, C_Item.GetItemInfo(Crafting.reagentQuality[1]) ) ) );
+                        GRM.Report(GRM.L("MSA has dedected that the quality of the required reagent has changed from {num1} to {num2}. Crafting has been stopped to prevent unwanted lower quality crafting. Please reselect {misc1} and restart if you wish to continue.", nil, nil, Crafting.reagentQuality[2] , reagent2Quality[2], select(2, C_Item.GetItemInfo(Crafting.reagentQuality[1]) ) ) );
 
                     elseif reagent2Quality[2] > Crafting.reagentQuality[2] then
-                        print(string.format("MSA has dedected that the quality of the required reagent has changed from R%d to R%d. Crafting has been stopped to prevent unwanted use of %s. Please reselect and restart if you wish to continue." , Crafting.reagentQuality[2] , reagent2Quality[2], select(2, C_Item.GetItemInfo(reagent2Quality[1]) ) ) );
+                        GRM.Report(GRM.L("MSA has dedected that the quality of the required reagent has changed from {num1} to {num2}. Crafting has been stopped to prevent unwanted use of {misc1}. Please reselect and restart if you wish to continue.", nil, nil, Crafting.reagentQuality[2] , reagent2Quality[2], select(2, C_Item.GetItemInfo(reagent2Quality[1]) ) ) );
 
                     end
 
@@ -444,7 +444,7 @@ Crafting.EndingTooSoon = function( craft_id )
             reagentName = "";
         end
 
-        print( string.format ("MSA - Crating has ended prematurely on a complex salvage recipe with multiple reagents. Checking stacks of secondary %s reagent. One moment..." , reagentName ) );
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Crating has ended prematurely on a complex salvage recipe with multiple reagents. Checking stacks of secondary {name1} reagent. One moment..." , reagentName ) );
         local secondaryReagents = {};
         local id = 0;
         local countInBags , numSlots = 0 , 0;
@@ -466,14 +466,14 @@ Crafting.EndingTooSoon = function( craft_id )
             C_Timer.After ( 1 , function()
                 -- Delay is so messaging isn't too spammy.
                 if not reagentName or reagentName == "" then
-                    print( string.format ("No secondary reagent stacks to combine. Please check your available reagents and start again." , reagentName ) )
+                    MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("No secondary reagent stacks to combine. Please check your available reagents and start again.") )
                 else
-                    print( string.format ("No secondary reagent stacks to combine. Please check your available %s and start again." , reagentName ) );
+                    MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("No secondary reagent stacks to combine. Please check your available {name1} and start again." , reagentName ) );
                 end
             end);
         end
     else
-        print("MSA - Crafting has ended prematurely. Please restart and crafting will continue nonstop" )
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Crafting has ended prematurely. Please restart and crafting will continue nonstop" ) );
     end
 end
 
@@ -484,7 +484,7 @@ Crafting.DelayedStacking = function ( reagentsToStack , craft_id )
     if not combiningStacks then
 
         if #reagentsToStack == 0 then
-            print(" MSA - Stacking is  finished - Please manually choose the 2nd reagent and restart crafting.");
+            MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Stacking is finished. Please manually choose the 2nd reagent and restart crafting."));
         end
 
         local i = #reagentsToStack;
@@ -496,8 +496,11 @@ Crafting.DelayedStacking = function ( reagentsToStack , craft_id )
 
         -- Combining all 2ndary stacks.
         local itemLink = select ( 2 , GetItemInfo ( reagentsToStack[i][1] ) );
+        if not itemLink then
+            itemLink = select ( 2 , GetItemInfo ( reagentsToStack[i][1] ) ); -- Call it twice as the first call will be nil on server after login.
+        end
         if itemLink then
-            print(string.format ( "Combining %s stacks..." , itemLink ) );
+            GRM.Report(GRM.L( "Combining {name1} stacks..." , itemLink ) );
         end
 
         Crafting.CombineStacks( { reagentsToStack[i][2] , reagentsToStack[i][3] , reagentsToStack[i][4] } , reagentsToStack[i][1] , false , false , craft_id , false );
@@ -526,7 +529,7 @@ CraftingFrame:SetScript( "OnEvent" , function( _ , event , craft_id , _ , failed
             Crafting.CraftListener(craft_id);
         end
 
-    elseif event == "UNIT_SPELLCAST_FAILED" and Crafting.Is_Salvage_Recipe ( failed_id ) and MSA_save.non_stop and C_TradeSkillUI.GetCraftableCount(failed_id) > 0 and not combiningStacks then
+    elseif event == "UNIT_SPELLCAST_FAILED" and failed_id and Crafting.Is_Salvage_Recipe ( failed_id ) and MSA_save.non_stop and C_TradeSkillUI.GetCraftableCount(failed_id) > 0 and not combiningStacks then
         local needs_to_stack , more_to_craft = Crafting.Is_More_To_Craft(failed_id);
 
         -- Do we need to restack herbs and restart, or do we need to just restart
@@ -564,7 +567,7 @@ Crafting.Special_Considerations_Endpoint = function( craft_id )
             if MSA.UI.Special_Considerations_Table[MSA.UI.SPECIAL_TRADESKILLID[prof_id]][4] and not Crafting.Has_Buff( MSA.UI.Special_Considerations_Table[MSA.UI.SPECIAL_TRADESKILLID[prof_id]][3] ) then
 
                 Crafting.KillCrafting();
-                print ("MSA - Crafting has ended prematurely because Shattered Essence buff is not present");
+                MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Crafting has ended prematurely because Shattered Essence buff is not present"));
             end
 
         -- elseif MSA.UI.Special_Considerations_Table[MSA.UI.SPECIAL_TRADESKILLID[prof_id]] == 2 then       -- Still pending on type

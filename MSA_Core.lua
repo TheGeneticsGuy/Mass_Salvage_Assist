@@ -65,6 +65,15 @@ local LoadSettings = function( reset_settings )
     if MSA_save.flashClientIconLogOff == nil then
         MSA_save.flashClientIconLogOff = false;
     end
+
+    if MSA_save.languageSelected == nil then
+        MSA_save.languageSelected = MSA.LOC.GetLocalizationIndex();
+    end
+
+    if MSA_save.localizeSetAuto == nil then
+        MSA_save.localizeSetAuto = true;
+    end
+
 end
 
 ------------------------
@@ -78,6 +87,8 @@ local addon_loaded = false;
 local InitializeAddon = function()
     if MSA.UI and MSA.UI.LoadUI then
         LoadSettings();
+        
+        MSA.LOC.SetLanguage();
 
         -- Don't need profession window
         MSA.UI.Deploy_Timer_UI();

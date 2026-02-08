@@ -9,6 +9,20 @@
 ## SavedVariables: MSA_save
 
 MSA_Core.lua
+
+MSA_Localization.lua
+locales\English.lua
+locales\German.lua
+locales\French.lua
+locales\Italian.lua
+locales\MandarinCN.lua
+locales\MandarinTW.lua
+locales\Korean.lua
+locales\PortugueseBR.lua
+locales\Russian.lua
+locales\SpanishEU.lua
+locales\SpanishMX.lua
+
 MSA_Crafting.lua
 MSA_UI.lua
 MSA_Slash.lua

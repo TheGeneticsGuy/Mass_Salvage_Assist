@@ -14,61 +14,65 @@ SC.resume_item_id = 0
 ---- SLASH COMMAND LOGIC ----
 -----------------------------
 
--- SLASH COMMAND LOGIC
-SlashCmdList["MSA"] = function(input)
+SC.SlashCommandActions = function( slashCommand )
+    -- SLASH COMMAND LOGIC
+    SlashCmdList[slashCommand] = function(input)
 
-    if input and string.lower(input) then -- and string.find ( input , "forcepurge" , 1 , true ) == nil then  -- purge data may have name after, don't want to lowercase that
-        input = string.lower(input):match("^%s*(.-)%s*$");    -- Strip out the white space
-    end
-
-    -- On to the Logic
-
-    if input == "" or not input then
-        SC.Error();
-        return;
-    end
-
-    local command = SC.Parse_Slash_Input(input);
-
-    if #command < 3 then
-        if command[1] == "help" then
-            SC.Help()
-        elseif command[1] == "craft" then
-            print('Invalid Format: Please type \'/msa craft recipe_id item_id\'\nExample: /msa craft 382981 191461')
-
-        elseif command[1] == "enable" then
-            SC.Enable()
-
-        elseif command[1] == "disable" then
-            SC.Disable()
-
-        elseif command[1] == "timer" then
-            SC.Timer()
-
-        elseif command[1] == "reset" then
-            SC.Reset()
-
-        elseif command[1] == "resume" then
-            SC.Resume()
-
-        else
-            SC.Error();
+        if input and string.lower(input) then -- and string.find ( input , "forcepurge" , 1 , true ) == nil then  -- purge data may have name after, don't want to lowercase that
+            input = string.lower(input):match("^%s*(.-)%s*$");    -- Strip out the white space
         end
 
-    elseif #command == 3 then
-        if command[1] == "craft" then
-            if SC.IsValid ( command ) then
-                SC.Craft( command[2] , command[3] );
+        -- On to the Logic
+
+        if input == "" or not input then
+            SC.Error();
+            return;
+        end
+
+        local command = SC.Parse_Slash_Input(input);
+
+        if #command < 3 then
+            if command[1] == "help" or command[1] == MSA.L("help") then
+                SC.Help()
+            elseif command[1] == "craft" or command[1] == MSA.L("craft") then
+                MSA.Report(MSA.L("Invalid Format") .. ": " .. MSA.L("Please type \'/msa craft recipe_id item_id\'") .. "\n" ..  MSA.L("Example: /msa craft 382981 191461"));
+
+            elseif command[1] == "enable" or command[1] == MSA.L("enable") then
+                SC.Enable()
+
+            elseif command[1] == "disable" or command[1] == MSA.L("disable") then
+                SC.Disable()
+
+            elseif command[1] == "timer" or command[1] == MSA.L("timer") then
+                SC.Timer()
+
+            elseif command[1] == "reset" or command[1] == MSA.L("reset") then
+                SC.Reset()
+
+            elseif command[1] == "resume" or command[1] == MSA.L("resume") then
+                SC.Resume()
+
+            else
+                SC.Error();
+            end
+
+        elseif #command == 3 then
+            if command[1] == "craft" or command[1] == MSA.L("craft")  then
+                if SC.IsValid ( command ) then
+                    SC.Craft( command[2] , command[3] );
+                end
+
+            else
+                SC.Error();
             end
 
         else
             SC.Error();
         end
-
-    else
-        SC.Error();
     end
 end
+
+SC.SlashCommandActions("MSA");
 
 ------------------------------
 ------- SC FUNCTIONS ---------
@@ -103,7 +107,7 @@ end
 -- What it Does:    Merely prints the default error message
 -- Purpose:         Just build the string here
 SC.Error = function()
-    print("Invalid Command: Please type '/msa help' for More Info!");
+    MSA.Report(MSA.L("Invalid Command: Please type '/msa help' for More Info!"));
 end
 
 -- Method:          SC.IsValid ( list )
@@ -117,17 +121,17 @@ SC.IsValid = function ( command )
     if type( command[2] ) == "number" and #tostring(command[2]) < 11 and not SC.Is_Salvage_Recipe ( command[2] ) then
         isValid = false;
     elseif type( command[2] ) ~= "number" then
-        print('The recipe ID \'' .. command[2] .. '\' is not valid.')
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("The recipe ID \'{num1}\' is not valid.",nil,nil,command[2]));
         isValid = false;
     end
 
     if type( command[3] ) == "number" and not SC.Is_Valid_Item_ID ( command[2] , command[3] ) then
         isValid = false;
     elseif type( command[3] ) ~= "number" then
-        print('The item ID \'' .. command[3] .. '\' is not valid.')
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("The item ID \'{num1}\' is not valid.",nil,nil,command[3]))
         isValid = false;
     elseif #tostring(command[2]) > 10 then
-        print('The item ID \'' .. command[3] .. '\' is not valid. And, it\'s too long!')
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("The item ID \'{num1}\' is not valid. And, it\'s too long!",nil,nil,command[3]));
     end
 
     return isValid;
@@ -147,10 +151,10 @@ SC.Is_Salvage_Recipe = function( recipe_id )
         if recipe_info.isSalvageRecipe then
             return true;
         else
-            print('\'' .. recipe_info.name .. '\' is not a salvage recipe.')
+            MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("\'{name1}\' is not a salvage recipe." ,recipe_info.name));
         end
     else
-        print('The recipe ID \'' .. recipe_id .. '\' is not valid.')
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("The recipe ID \'{num1}\' is not valid.",nil,nil,recipe_id));
     end
     return false;
 end
@@ -178,10 +182,10 @@ SC.Is_Valid_Item_ID = function ( spell_id , item_id )
         if isValid then
             return true;
         else
-            print('\'' .. item_id .. '\' is not a valid crafting reagent.')
+            MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("\'{num1}\' is not a valid crafting reagent.",nil,nil,item_id))
         end
     else
-        print('The item ID \'' .. item_id .. '\' is not valid.')
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("The item ID \'{num1}\' is not valid.",nil,nil,item_id))
     end
 
     return false;

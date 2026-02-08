@@ -1,3 +1,32 @@
+## **Mass Salvage Assist - Version 1.0.28 - January 20th, 2026**
+
+***QUALITY OF LIFE***
+
+* Added Localization for all the supported built-in langages. This includes the following:
+    * English
+    * Spanish (Mexico/Latin America)
+    * Spanish (Spain)
+    * Portugues (Brazil)
+    * French (France)
+    * Italian
+    * German
+    * Russian
+    * Korean
+    * Chinese (Traditional - Taiwan/Hong Kong)
+    * Chinese (Simplified - Mainland China)
+
+*Please note, I do not do the translation work myself, I only added the framework for localizations and all the included locale files. If you wish to assist in this method, please feel free to add the proper translation. It is actually very easy to do.
+
+***BUG FIXES***
+
+* Fixed a bug that could cause a LUA error if crafting was interrupted early. This shouldn't happen anymore.
+
+
+## **Mass Salvage Assist - Version 1.0.27 - January 20th, 2026**
+
+*Midnight Compatibility Update*
+
+
 ## **Mass Salvage Assist - Version 1.0.26 - January 20th, 2026**
 
 *Midnight Compatibility Update*
