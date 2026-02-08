@@ -24,7 +24,7 @@ Listener:SetScript("OnEvent", function(self, event, unit )
 
             -- Play first alert for simple AFK - not logout
             if ( ( MSA_save.afkAlarm[1] and MSA_save.afkAlarm[3] ) or ( MSA_save.flashClientIcon and MSA_save.flashClientIconAFK ) ) and C_TradeSkillUI.IsRecipeRepeating() then      -- Only play if going afk.
-                print("MSA Warning! AFK while crafting." );
+                MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Warning! AFK while crafting."));
 
                 if MSA_save.afkAlarm[1] and MSA_save.afkAlarm[3] then
                     local soundEnabled = GetCVar("Sound_EnableAllSound")
@@ -68,7 +68,7 @@ Listener:SetScript("OnEvent", function(self, event, unit )
                 if StaticPopup1 and StaticPopup1:IsVisible() then
                     local num = StaticPopup1Text:GetText():match("%d%d");
                     if num and tonumber ( num ) <= 20 then
-                        print("MSA WARNING - COUNTDOWN TO LOGOFF TRIGGERED!!!");
+                        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("WARNING - COUNTDOWN TO LOGOFF TRIGGERED!!!"));
 
                         if MSA_save.afkAlarm[1] and MSA_save.afkAlarm[5] then
                             local soundEnabled = GetCVar("Sound_EnableAllSound")

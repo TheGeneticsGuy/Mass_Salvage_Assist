@@ -319,10 +319,10 @@ Crafting.CraftListener = function ( craft_id )
                 elseif Crafting.reagentQuality[2] ~= reagent2Quality[2] then
                     if reagent2Quality[2] < Crafting.reagentQuality[2] then
 
-                        GRM.Report(GRM.L("MSA has dedected that the quality of the required reagent has changed from {num1} to {num2}. Crafting has been stopped to prevent unwanted lower quality crafting. Please reselect {misc1} and restart if you wish to continue.", nil, nil, Crafting.reagentQuality[2] , reagent2Quality[2], select(2, C_Item.GetItemInfo(Crafting.reagentQuality[1]) ) ) );
+                        MSA.Report(MSA.L("MSA has detected that the quality of the required reagent has changed from {num1} to {num2}. Crafting has been stopped to prevent unwanted lower quality crafting. Please reselect {misc1} and restart if you wish to continue.", nil, nil, Crafting.reagentQuality[2] , reagent2Quality[2], select(2, C_Item.GetItemInfo(Crafting.reagentQuality[1]) ) ) );
 
                     elseif reagent2Quality[2] > Crafting.reagentQuality[2] then
-                        GRM.Report(GRM.L("MSA has dedected that the quality of the required reagent has changed from {num1} to {num2}. Crafting has been stopped to prevent unwanted use of {misc1}. Please reselect and restart if you wish to continue.", nil, nil, Crafting.reagentQuality[2] , reagent2Quality[2], select(2, C_Item.GetItemInfo(reagent2Quality[1]) ) ) );
+                        MSA.Report(MSA.L("MSA has detected that the quality of the required reagent has changed from {num1} to {num2}. Crafting has been stopped to prevent unwanted use of {misc1}. Please reselect and restart if you wish to continue.", nil, nil, Crafting.reagentQuality[2] , reagent2Quality[2], select(2, C_Item.GetItemInfo(reagent2Quality[1]) ) ) );
 
                     end
 
@@ -500,7 +500,7 @@ Crafting.DelayedStacking = function ( reagentsToStack , craft_id )
             itemLink = select ( 2 , GetItemInfo ( reagentsToStack[i][1] ) ); -- Call it twice as the first call will be nil on server after login.
         end
         if itemLink then
-            GRM.Report(GRM.L( "Combining {name1} stacks..." , itemLink ) );
+            MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Combining {name1} stacks..." , itemLink ) );
         end
 
         Crafting.CombineStacks( { reagentsToStack[i][2] , reagentsToStack[i][3] , reagentsToStack[i][4] } , reagentsToStack[i][1] , false , false , craft_id , false );

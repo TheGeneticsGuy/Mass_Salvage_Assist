@@ -95,6 +95,7 @@ local InitializeAddon = function()
         addon_loaded = true;
 
         if ProfessionsFrame then
+            print("Setting Language1")
             MSA.UI.LoadUI();
             MSA.Initialization:UnregisterAllEvents();
             MSA.Initialization = nil;

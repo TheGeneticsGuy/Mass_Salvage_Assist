@@ -16,7 +16,7 @@ UI.LoadUI = function()
 
         -- Text to the right of checkbox
         UI.MSA_checkbox.Text = UI.MSA_checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_checkbox.Text:SetText( "Nonstop Crafting" )
+        UI.MSA_checkbox.Text:SetText( MSA.L("Nonstop Crafting") )
         UI.MSA_checkbox.Text:SetPoint( "LEFT" , UI.MSA_checkbox, "RIGHT" , 2 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -34,7 +34,7 @@ UI.LoadUI = function()
         -- Tooltip
         UI.MSA_checkbox:SetScript ( "OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "MSA Limitation: Nonstop will only work for reagents within player bags, not bank tabs." );
+            GameTooltip:AddLine ( MSA.L("MSA Limitation: Nonstop will only work for reagents within player bags, not bank tabs.") );
             GameTooltip:Show();
         end);
 
@@ -69,7 +69,7 @@ UI.LoadUI = function()
         UI.MSA_Timer_Button = CreateFrame ( "Button" , "MSA_Timer_Button" , ProfessionsFrame.CraftingPage.SchematicForm , "UIPanelButtonTemplate" );
         UI.MSA_Timer_Button:SetSize( 100 , 23 );
         UI.MSA_Timer_Button:SetPoint( "TOPRIGHT" , ProfessionsFrame.CraftingPage.SchematicForm , "TOPRIGHT" , -5 , -37 );
-        UI.MSA_Timer_Button:SetText ( "Timer" );
+        UI.MSA_Timer_Button:SetText ( MSA.L("Timer") );
 
         UI.MSA_Timer_Button:SetScript ( "OnClick" , function()
             if UI.CT_Core_Frame:IsVisible() then
@@ -81,7 +81,7 @@ UI.LoadUI = function()
 
         UI.MSA_Timer_Button:SetScript ( "OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "Typing \'/msa timer\' to open/close also works." );
+            GameTooltip:AddLine ( MSA.L("Typing \'/msa timer\' to open/close also works.") );
             GameTooltip:Show();
         end);
 
@@ -102,7 +102,7 @@ UI.LoadUI = function()
             UI.MSA_ProfWindow_Settings:Show();
 
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "MSA AFK ALERT" , 1 , 0 , 0 );
+            GameTooltip:AddLine ( MSA.L("MSA AFK ALERT") , 1 , 0 , 0 );
             GameTooltip:Show();
 
         end)
@@ -129,9 +129,20 @@ UI.LoadUI = function()
         UI.MSA_ProfWindow_Settings.locked = false;
         UI.MSA_ProfWindow_Settings.timer = 0;
 
+        local ProfSettingsWindowWidth = function()
+            local defaultWidth = 405;
+            local adjusted = {
+                [2]=465
+            }
+            if adjusted[MSA_save.languageSelected] then
+                return adjusted[MSA_save.languageSelected];
+            else
+                return defaultWidth;
+            end
+        end
          -- Frame Details
          UI.MSA_ProfWindow_Settings:SetPoint( "TOPLEFT" , UI.MSA_Timer_Button , "TOPRIGHT" , 10 , 0 );
-         UI.MSA_ProfWindow_Settings:SetSize( 405 , 230 );
+         UI.MSA_ProfWindow_Settings:SetSize( ProfSettingsWindowWidth() , 230 );
          UI.MSA_ProfWindow_Settings:EnableMouse ( true );
          UI.MSA_ProfWindow_Settings:SetToplevel ( true );
 
@@ -169,7 +180,7 @@ UI.LoadUI = function()
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
         UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
-        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetText( "AFK Alert" );
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetText( MSA.L("AFK Alert") );
         UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox, "RIGHT" , 2 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -184,10 +195,10 @@ UI.LoadUI = function()
 
         UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:SetScript("OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" )
-            GameTooltip:AddLine ( "MSA AFK ALERT" , 1 , 0 , 0 )
+            GameTooltip:AddLine ( MSA.L("MSA AFK ALERT") , 1 , 0 , 0 )
             GameTooltip:AddLine ( ' ' )
-            GameTooltip:AddDoubleLine ( "Alert 1:", "Going AFK while crafting" )
-            GameTooltip:AddDoubleLine ( "Alert 2:", "20 Second offline countdown" )
+            GameTooltip:AddDoubleLine ( MSA.L("Alert 1: Going AFK while crafting") )
+            GameTooltip:AddDoubleLine ( MSA.L("Alert 2: 20 Second offline countdown") )
             GameTooltip:Show();
         end)
 
@@ -206,7 +217,7 @@ UI.LoadUI = function()
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD")
-        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetText( "Play Sound When Player Goes AFK" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetText( MSA.L("Play Sound When Player Goes AFK") )
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -223,7 +234,7 @@ UI.LoadUI = function()
 
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:SetScript("OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" )
-            GameTooltip:AddLine ( "Sound will trigger only during nonstop crafting." );
+            GameTooltip:AddLine ( MSA.L("Sound will trigger only during nonstop crafting.") );
             GameTooltip:Show();
         end)
 
@@ -241,7 +252,7 @@ UI.LoadUI = function()
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
-        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetText( "Play Sound When Offline Countdown Timer Begins" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetText( MSA.L("Play Sound When Offline Countdown Timer Begins") )
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -259,7 +270,7 @@ UI.LoadUI = function()
 
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:SetScript("OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "Sound will trigger only during nonstop crafting." );
+            GameTooltip:AddLine ( MSA.L("Sound will trigger only during nonstop crafting.") );
             GameTooltip:Show();
         end)
 
@@ -277,7 +288,7 @@ UI.LoadUI = function()
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
         UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
-        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetText( "Force Audio" )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetText( MSA.L("Force Audio") )
         UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -294,7 +305,7 @@ UI.LoadUI = function()
 
         UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:SetScript("OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "Alerts will be heard even if sound is disabled." );
+            GameTooltip:AddLine ( MSA.L("Alerts will be heard even if sound is disabled.") );
             GameTooltip:Show();
         end)
 
@@ -312,7 +323,7 @@ UI.LoadUI = function()
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text = UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
         UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
-        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetText( "Flash Desktop Icon" )
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetText( MSA.L("Flash Desktop Icon") )
         UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -331,7 +342,7 @@ UI.LoadUI = function()
 
         UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:SetScript("OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "The WOW icon will only flash if not focused already." );
+            GameTooltip:AddLine ( MSA.L("The WOW icon will only flash if not focused already.") );
             GameTooltip:Show();
         end)
 
@@ -349,7 +360,7 @@ UI.LoadUI = function()
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text = UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
-        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetText( "Flash When Player Goes AFK" )
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetText( MSA.L("Flash When Player Goes AFK") )
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -366,7 +377,7 @@ UI.LoadUI = function()
 
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:SetScript("OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "The WOW icon will only flash if not focused already." );
+            GameTooltip:AddLine ( MSA.L("The WOW icon will only flash if not focused already.") );
             GameTooltip:Show();
         end)
 
@@ -384,7 +395,7 @@ UI.LoadUI = function()
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text = UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
-        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetText( "Flash When Logoff Timer Begins" )
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetText( MSA.L("Flash When Logoff Timer Begins") )
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -401,7 +412,7 @@ UI.LoadUI = function()
 
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:SetScript("OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "The WOW icon will only flash if not focused already." );
+            GameTooltip:AddLine ( MSA.L("The WOW icon will only flash if not focused already.") );
             GameTooltip:Show();
         end)
 
@@ -479,8 +490,21 @@ UI.Deploy_Timer_UI = function()
             edgeSize = 8,
             insets = { left = 2 , right = 2 , top = 3 , bottom = 2 }
          })
+         local ProfSettingsTimerWidth = function()
+            local defaultWidth = 320;
+            local adjusted = {
+                [2]=400,
+                [3]=340
+            }
+            if adjusted[MSA_save.languageSelected] then
+                return adjusted[MSA_save.languageSelected];
+            else
+                return defaultWidth;
+            end
+        end
+
         UI.CT_Core_Frame:SetPoint ( MSA_save.pos[1] , UIParent , MSA_save.pos[2] , MSA_save.pos[3] , MSA_save.pos[4] );
-        UI.CT_Core_Frame:SetSize( 320 , 110 );
+        UI.CT_Core_Frame:SetSize( ProfSettingsTimerWidth() , 110 );
         UI.CT_Core_Frame:EnableMouse ( true );
         UI.CT_Core_Frame:SetToplevel ( true );
         UI.CT_Core_Frame:SetFrameStrata("HIGH");
@@ -504,7 +528,7 @@ UI.Deploy_Timer_UI = function()
         UI.CT_Core_Frame:SetScript( "OnShow" , function()
             if C_TradeSkillUI.IsRecipeRepeating() then
                 if #MSA.CT.timer_table < 10 and #MSA.CT.timer_table > 0 then
-                    MSA.UI.CT_Core_Frame.Countdown_Text:SetText( "Calculating..." )
+                    MSA.UI.CT_Core_Frame.Countdown_Text:SetText( MSA.L("Calculating...") )
                 elseif MSA.UI.CT_Core_Frame.value > 0 then
                     MSA.UI.CT_Core_Frame.Countdown_Text:SetText( MSA.CT.formatTime ( MSA.UI.CT_Core_Frame.value ) );
                 end
@@ -520,7 +544,7 @@ UI.Deploy_Timer_UI = function()
         UI.CT_Core_Frame.Header_Text = UI.CT_Core_Frame:CreateFontString ( nil , "OVERLAY" , "GameFontWhiteTiny" );
         UI.CT_Core_Frame.Header_Text:SetPoint ( "TOP" , UI.CT_Core_Frame, "TOP" , 0 , -12 );
         UI.CT_Core_Frame.Header_Text:SetFont( STANDARD_TEXT_FONT , 14 , "BOLD");
-        UI.CT_Core_Frame.Header_Text:SetText ( "Time Remaining" );
+        UI.CT_Core_Frame.Header_Text:SetText ( MSA.L("Time Remaining") );
 
         UI.CT_Core_Frame.Countdown_Text = UI.CT_Core_Frame:CreateFontString ( nil , "OVERLAY" , "GameFontWhite" );
         UI.CT_Core_Frame.Countdown_Text:SetPoint ( "TOP" , UI.CT_Core_Frame.Header_Text , "BOTTOM" , 0 , -5 );
@@ -537,7 +561,7 @@ UI.Deploy_Timer_UI = function()
         -- Text to the right of checkbox
         UI.CT_Core_Frame.Always_Show_Checkbox.Text = UI.CT_Core_Frame.Always_Show_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
         UI.CT_Core_Frame.Always_Show_Checkbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
-        UI.CT_Core_Frame.Always_Show_Checkbox.Text:SetText( "Always Show Timer When Crafting" )
+        UI.CT_Core_Frame.Always_Show_Checkbox.Text:SetText( MSA.L("Always Show Timer When Crafting") )
         UI.CT_Core_Frame.Always_Show_Checkbox.Text:SetPoint( "LEFT" , UI.CT_Core_Frame.Always_Show_Checkbox, "RIGHT" , 2 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -551,7 +575,7 @@ UI.Deploy_Timer_UI = function()
             MSA_save.always_show = self:GetChecked()
             UI.MSA_checkbox.value = MSA_save.always_show
             if not UI.MSA_checkbox.value then
-                print('If you wish to reopen the timer again, type \'/msa timer\'' )
+                MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("If you wish to reopen the timer again, type \'/msa timer\'"))
             end
         end)
 
@@ -562,7 +586,7 @@ UI.Deploy_Timer_UI = function()
         -- Text to the right of checkbox
         UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox.Text = UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
         UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
-        UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox.Text:SetText( "Calculate using only reagents in bags." )
+        UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox.Text:SetText( MSA.L("Calculate using only reagents in bags.") )
         UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox.Text:SetPoint( "LEFT" , UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox, "RIGHT" , 2 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -618,7 +642,7 @@ UI.Configure_TWW_Ench = function( hide_frame )
 
         -- Text to the right of checkbox
         UI.EnchBuff_Checkbox.Text = UI.EnchBuff_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.EnchBuff_Checkbox.Text:SetText( "Cancel Crafting On Buff Expiration" );
+        UI.EnchBuff_Checkbox.Text:SetText( MSA.L("Cancel Crafting On Buff Expiration") );
         UI.EnchBuff_Checkbox.Text:SetPoint( "LEFT" , UI.EnchBuff_Checkbox, "RIGHT" , 2 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -638,7 +662,7 @@ UI.Configure_TWW_Ench = function( hide_frame )
         -- Tooltip
         UI.EnchBuff_Checkbox:SetScript ( "OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "MSA: Enable to ensure crafting automatically stops when buff expires." );
+            GameTooltip:AddLine ( MSA.L("MSA") .. ": " .. MSA.L("Enable to ensure crafting automatically stops when buff expires.") );
             GameTooltip:Show();
         end);
 
@@ -653,7 +677,7 @@ UI.Configure_TWW_Ench = function( hide_frame )
 
         -- Text to the right of checkbox
         UI.EnchBuff_Sound_Checkbox.Text = UI.EnchBuff_Sound_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.EnchBuff_Sound_Checkbox.Text:SetText( "Ring Bell on Expiration" );
+        UI.EnchBuff_Sound_Checkbox.Text:SetText( MSA.L("Ring Bell on Expiration") );
         UI.EnchBuff_Sound_Checkbox.Text:SetPoint( "LEFT" , UI.EnchBuff_Sound_Checkbox, "RIGHT" , 2 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -671,7 +695,7 @@ UI.Configure_TWW_Ench = function( hide_frame )
         -- Tooltip
         UI.EnchBuff_Sound_Checkbox:SetScript ( "OnEnter" , function( self )
             GameTooltip:SetOwner ( self , "ANCHOR_CURSOR" );
-            GameTooltip:AddLine ( "MSA: For now, there is only 1 sound choice. This will change." );
+            GameTooltip:AddLine ( MSA.L("MSA") .. ": " .. MSA.L("For now, there is only 1 sound choice. This will change.") );
             GameTooltip:Show();
         end);
 
@@ -719,7 +743,7 @@ UI.Configure_TWW_BS = function(hide_frame)
         UI.Special_Considerations_Table[453727][4] = MSA_save.everburning_ignition;
 
         UI.BSBuff_CheckBox.Text = UI.BSBuff_CheckBox:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-        UI.BSBuff_CheckBox.Text:SetText("Cancel Crafting On Buff Expiration");
+        UI.BSBuff_CheckBox.Text:SetText(MSA.L("Cancel Crafting On Buff Expiration"));
         UI.BSBuff_CheckBox.Text:SetPoint("LEFT", UI.BSBuff_CheckBox, "RIGHT", 2, 0);
 
         UI.BSBuff_CheckBox:SetHitRectInsets(0, 0 - UI.BSBuff_CheckBox.Text:GetWidth() - 2, 0, 0);
@@ -736,7 +760,7 @@ UI.Configure_TWW_BS = function(hide_frame)
 
         UI.BSBuff_CheckBox:SetScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
-            GameTooltip:AddLine("MSA: Enable to ensure crafting automatically stops when buff expires.");
+            GameTooltip:AddLine(MSA.L("MSA") .. ": " .. MSA.L("Enable to ensure crafting automatically stops when buff expires."));
             GameTooltip:Show();
         end);
 
@@ -750,7 +774,7 @@ UI.Configure_TWW_BS = function(hide_frame)
         UI.BSBuff_Sound_Checkbox:SetChecked(UI.BSBuff_Sound_Checkbox.value);
 
         UI.BSBuff_Sound_Checkbox.Text = UI.BSBuff_Sound_Checkbox:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-        UI.BSBuff_Sound_Checkbox.Text:SetText("Ring Bell On Expiration");
+        UI.BSBuff_Sound_Checkbox.Text:SetText(MSA.L("Ring Bell On Expiration"));
         UI.BSBuff_Sound_Checkbox.Text:SetPoint("LEFT", UI.BSBuff_Sound_Checkbox, "RIGHT", 2, 0);
 
         UI.BSBuff_Sound_Checkbox:SetHitRectInsets(0, 0 - UI.BSBuff_Sound_Checkbox.Text:GetWidth() - 2, 0, 0);
@@ -764,7 +788,7 @@ UI.Configure_TWW_BS = function(hide_frame)
 
         UI.BSBuff_Sound_Checkbox:SetScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
-            GameTooltip:AddLine("MSA: For now, there is only 1 sound choice. This will change.");
+            GameTooltip:AddLine(MSA.L("MSA") .. ": " .. MSA.L("For now, there is only 1 sound choice. This will change."));
             GameTooltip:Show();
         end)
 

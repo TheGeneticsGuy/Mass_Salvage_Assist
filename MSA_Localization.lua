@@ -73,7 +73,6 @@ end
 -- Purpose:         Set the language how you want!
 LOC.SetLanguage = function ( index , forceReload )
     if forceReload then
-
         if MSA_save.languageSelected ~= index then
             MSA_save.languageSelected = index;
 
@@ -84,7 +83,6 @@ LOC.SetLanguage = function ( index , forceReload )
         end
         return
     end
-
     index = index or MSA_save.languageSelected;
 
     -- This will auto adjust the language depending on the localization
@@ -120,7 +118,7 @@ end
 MSA.L = function( key , name1, name2, num1, num2, misc1, misc2 )
     if key ~= nil and MSA_L[key] ~= nil then
         if MSA_L[key] ~= true then
-            key = MSA[key]; -- Get localized text - Not necessary if in default English
+            key = MSA_L[key]; -- Get localized text - Not necessary if in default English
         end
 
         if name1 then -- It is not nil

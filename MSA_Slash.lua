@@ -43,7 +43,7 @@ SC.SlashCommandActions = function( slashCommand )
             elseif command[1] == "disable" or command[1] == MSA.L("disable") then
                 SC.Disable()
 
-            elseif command[1] == "timer" or command[1] == MSA.L("timer") then
+            elseif command[1] == "timer" or command[1] == string.lower(MSA.L("Timer")) then
                 SC.Timer()
 
             elseif command[1] == "reset" or command[1] == MSA.L("reset") then
@@ -229,7 +229,7 @@ SC.Craft = function( recipe_id , item_id )
 
                         if smaller_stack[1] ~= -1 then
                             C_Timer.After ( 1 , function()
-                                print("MSA: Initial stack is too small. Stacks are being combined. One moment...")
+                                MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Initial stack is too small. Stacks are being combined. One moment..."));
                                 MSA.Crafting.CombineStacks ( smaller_stack , SC.g_item_id , true , false , recipe_id , true )
                                 SC.Nonstep_Disabled_Msg();
                             end);
@@ -248,14 +248,14 @@ SC.Craft = function( recipe_id , item_id )
 
 
     if smaller_stack[1] == -1 then
-        print( "MSA: No items in bags to craft." );
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("No items in bags to craft." ));
     else
         local itemLink = select ( 2 , GetItemInfo(item_id) );
         if not itemLink then
             itemLink = "";
         end
 
-        print( string.format ( "MSA: Not enough to craft - %dx %s remaining in bags." , smaller_stack[3] , itemLink ) );
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Not enough to craft - {num1} {misc1} remaining in bags." , nil, nil, smaller_stack[3] , nil, itemLink ) );
     end
 end
 
@@ -264,7 +264,7 @@ end
 -- Purpose:         Help players know when they use macro tool since checkbox is not visible.
 SC.Nonstep_Disabled_Msg = function()
     if not MSA_save.non_stop then
-        print( "MSA:" .. " " .. "Nonstop crafting is currently disabled. Please type \'/msa enable\' to continue nonstop." )
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Nonstop crafting is currently disabled. Please type \'/msa enable\' to continue nonstop." ));
     end
 end
 
@@ -276,9 +276,9 @@ SC.Enable = function()
         if MSA.UI.MSA_checkbox and MSA.UI.MSA_checkbox:IsVisible() then
             MSA.UI.MSA_checkbox:SetChecked(MSA_save.non_stop);
         end
-        print( "MSA:" .. " " .. "Nonstop crafting has been enabled" )
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Nonstop crafting has been enabled" ));
     else
-        print( "MSA:" .. " " .. "Nonstop crafting is already enabled" )
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Nonstop crafting is already enabled" ));
     end
 end
 
@@ -290,9 +290,9 @@ SC.Disable = function()
         if MSA.UI.MSA_checkbox and MSA.UI.MSA_checkbox:IsVisible() then
             MSA.UI.MSA_checkbox:SetChecked(MSA_save.non_stop);
         end
-        print( "MSA:" .. " " .. "Nonstop crafting has been disabled" )
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Nonstop crafting has been disabled" ));
     else
-        print( "MSA:" .. " " .. "Nonstop crafting is already disabled" )
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Nonstop crafting is already disabled" ));
     end
 end
 
@@ -321,9 +321,9 @@ end
 -- Purpose:         Just a QOL feature.
 SC.Resume = function()
     if MSA.SC.resume_recipe_id == 0 or MSA.SC.resume_item_id == 0 then
-        print("MSA: No crafting spell is ready to resume.")
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("No crafting spell is ready to resume."));
     else
-        print("MSA: Resuming..." )
+        MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Resuming..."));
         SC.Craft ( MSA.SC.resume_recipe_id , MSA.SC.resume_item_id );
     end
 end
@@ -332,16 +332,15 @@ end
 -- What it Does:    Prints out the slash commands available and how to use them
 -- Purpose:         Useful to have slash command help
 SC.Help = function()
-    local help_text = "\n" .. "Mass Salvage Assist" .. "\n"
-    print("\n")
-    print('Mass Salvage Assist')
-    print('- Example - Mass Mill Hochenblume:')
-    print('- /msa craft recipe_id item_id')
-    print('- /msa craft 382981 191461')
-    print("\n")
-    print("- /msa enable    - Turn on endless salvaging")
-    print("- /msa disable   - Turn off endless salvaging")
-    print("- /msa resume   - Continue with most recently used spell")
-    print("- /msa timer      - Show or Hide the Crafting Timer")
-    print("- /msa reset      - Resets timer position to default")
+    MSA.Report(" ")
+    MSA.Report(MSA.L("Mass Salvage Assist"))
+    MSA.Report('- ' .. MSA.L('Example - Mass Mill Hochenblume:'))
+    MSA.Report('- ' .. MSA.L('/msa craft recipe_id item_id'))
+    MSA.Report('- ' .. MSA.L('/msa craft 382981 191461'))
+    MSA.Report(" ")
+    MSA.Report("- " .. MSA.L("/msa enable    - Turn on endless salvaging"))
+    MSA.Report("- " .. MSA.L("/msa disable   - Turn off endless salvaging"))
+    MSA.Report("- " .. MSA.L("/msa resume   - Continue with most recently used spell"))
+    MSA.Report("- " .. MSA.L("/msa timer      - Show or Hide the Crafting Timer"))
+    MSA.Report("- " .. MSA.L("/msa reset      - Resets timer position to default"))
 end
