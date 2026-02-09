@@ -1,4 +1,4 @@
-## **Mass Salvage Assist - Version 1.0.28 - January 20th, 2026**
+## **Mass Salvage Assist - Version 1.0.27 - February 8th, 2026**
 
 ***QUALITY OF LIFE***
 
@@ -15,16 +15,11 @@
     * Chinese (Traditional - Taiwan/Hong Kong)
     * Chinese (Simplified - Mainland China)
 
-*Please note, I do not do the translation work myself, I only added the framework for localizations and all the included locale files. If you wish to assist in this method, please feel free to add the proper translation. It is actually very easy to do.
+*Please note, I used Gemini 3.0 to assist in the translation of all 11 of these. I requested the AI to not make it overly formal and to keep it to the same tone and style as the English, but I have no idea how good it was at this job. If you have any localization change suggestions, feel free to make a Pull Request on GitHub, or message me directly on Discord with the changes and I will be sure to implement it.
 
 ***BUG FIXES***
 
 * Fixed a bug that could cause a LUA error if crafting was interrupted early. This shouldn't happen anymore.
-
-
-## **Mass Salvage Assist - Version 1.0.27 - January 20th, 2026**
-
-*Midnight Compatibility Update*
 
 
 ## **Mass Salvage Assist - Version 1.0.26 - January 20th, 2026**
