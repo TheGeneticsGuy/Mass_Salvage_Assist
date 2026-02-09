@@ -132,7 +132,14 @@ UI.LoadUI = function()
         local ProfSettingsWindowWidth = function()
             local defaultWidth = 405;
             local adjusted = {
-                [2]=465
+                [2]=465,
+                [4]=455,
+                [6]=500,
+                [7]=475,
+                [8]=430,
+                [9]=320,
+                [10]=250,
+                [11]=270
             }
             if adjusted[MSA_save.languageSelected] then
                 return adjusted[MSA_save.languageSelected];
@@ -179,8 +186,8 @@ UI.LoadUI = function()
 
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
         UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetText( MSA.L("AFK Alert") );
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetFontHeight( 12 );
         UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Alert_Checkbox, "RIGHT" , 2 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -216,8 +223,8 @@ UI.LoadUI = function()
 
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD")
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetText( MSA.L("Play Sound When Player Goes AFK") )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetFontHeight(12);
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Sound1, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -251,8 +258,8 @@ UI.LoadUI = function()
 
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetText( MSA.L("Play Sound When Offline Countdown Timer Begins") )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetFontHeight(12);
         UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_Sound2, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -287,8 +294,8 @@ UI.LoadUI = function()
 
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text = UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
         UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetText( MSA.L("Force Audio") )
+        UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetFontHeight(12);
         UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_AFK_ForceSound, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -322,8 +329,8 @@ UI.LoadUI = function()
 
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text = UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
         UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetText( MSA.L("Flash Desktop Icon") )
+        UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetFontHeight(12);
         UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_FlashClientCheckbox, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -359,8 +366,8 @@ UI.LoadUI = function()
 
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text = UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetText( MSA.L("Flash When Player Goes AFK") )
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetFontHeight(12);
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_flashClientIconAFK, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -394,8 +401,8 @@ UI.LoadUI = function()
 
         -- Text to the right of checkbox
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text = UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetText( MSA.L("Flash When Logoff Timer Begins") )
+        UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetFontHeight(12);
         UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff.Text:SetPoint( "LEFT" , UI.MSA_ProfWindow_Settings.MSA_flashClientIconLogOff, "RIGHT" , 1 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -494,7 +501,15 @@ UI.Deploy_Timer_UI = function()
             local defaultWidth = 320;
             local adjusted = {
                 [2]=400,
-                [3]=340
+                [3]=340,
+                [4]=330,
+                [5]=335,
+                [6]=355,
+                [7]=355,
+                [8]=330,
+                [9]=190,
+                [10]=230,
+                [11]=230
             }
             if adjusted[MSA_save.languageSelected] then
                 return adjusted[MSA_save.languageSelected];
@@ -543,8 +558,8 @@ UI.Deploy_Timer_UI = function()
         -- Font Strings Title and main
         UI.CT_Core_Frame.Header_Text = UI.CT_Core_Frame:CreateFontString ( nil , "OVERLAY" , "GameFontWhiteTiny" );
         UI.CT_Core_Frame.Header_Text:SetPoint ( "TOP" , UI.CT_Core_Frame, "TOP" , 0 , -12 );
-        UI.CT_Core_Frame.Header_Text:SetFont( STANDARD_TEXT_FONT , 14 , "BOLD");
         UI.CT_Core_Frame.Header_Text:SetText ( MSA.L("Time Remaining") );
+        UI.CT_Core_Frame.Header_Text:SetFontHeight(14);
 
         UI.CT_Core_Frame.Countdown_Text = UI.CT_Core_Frame:CreateFontString ( nil , "OVERLAY" , "GameFontWhite" );
         UI.CT_Core_Frame.Countdown_Text:SetPoint ( "TOP" , UI.CT_Core_Frame.Header_Text , "BOTTOM" , 0 , -5 );
@@ -560,8 +575,8 @@ UI.Deploy_Timer_UI = function()
 
         -- Text to the right of checkbox
         UI.CT_Core_Frame.Always_Show_Checkbox.Text = UI.CT_Core_Frame.Always_Show_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.CT_Core_Frame.Always_Show_Checkbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
         UI.CT_Core_Frame.Always_Show_Checkbox.Text:SetText( MSA.L("Always Show Timer When Crafting") )
+        UI.CT_Core_Frame.Always_Show_Checkbox.Text:SetFontHeight(12);
         UI.CT_Core_Frame.Always_Show_Checkbox.Text:SetPoint( "LEFT" , UI.CT_Core_Frame.Always_Show_Checkbox, "RIGHT" , 2 , 0 )
 
         -- Normalize the click area of check button to length of the text
@@ -585,8 +600,8 @@ UI.Deploy_Timer_UI = function()
 
         -- Text to the right of checkbox
         UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox.Text = UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox:CreateFontString ( nil , "OVERLAY" , "GameFontNormal" )
-        UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox.Text:SetFont( STANDARD_TEXT_FONT , 12 , "BOLD");
         UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox.Text:SetText( MSA.L("Calculate using only reagents in bags.") )
+        UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox.Text:SetFontHeight(12);
         UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox.Text:SetPoint( "LEFT" , UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox, "RIGHT" , 2 , 0 )
 
         -- Normalize the click area of check button to length of the text
