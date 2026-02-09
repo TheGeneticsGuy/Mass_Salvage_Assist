@@ -2,11 +2,11 @@
 
 ***QUALITY OF LIFE***
 
-* Added Localization for all the supported built-in langages. This includes the following:
+* Added Localization for all the supported built-in languages. This includes the following:
     * English
     * Spanish (Mexico/Latin America)
     * Spanish (Spain)
-    * Portugues (Brazil)
+    * Portuguese (Brazil)
     * French (France)
     * Italian
     * German
