@@ -37,7 +37,7 @@ CT.formatTime = function(seconds)
         return MSA.L("{num1} hrs, {num2} minutes, {misc1} seconds", nil, nil, hours, minutes, remainingSeconds)
     else
         -- Just minutes and seconds
-        return MSA.L("{num1} minutes, {num2} seconds", minutes, remainingSeconds)
+        return MSA.L("{num1} minutes, {num2} seconds", nil, nil, minutes, remainingSeconds)
     end
 end
 

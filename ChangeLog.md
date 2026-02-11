@@ -1,3 +1,9 @@
+## **Mass Salvage Assist - Version 1.0.28 - February 10th, 2026**
+
+*Compatibility with 12.0.1 is out*
+
+* Fixed the timer to actual show the countdown now. Sorry about that. Forgot to pass the values for localization here properly.
+
 ## **Mass Salvage Assist - Version 1.0.27 - February 8th, 2026**
 
 ***QUALITY OF LIFE***
