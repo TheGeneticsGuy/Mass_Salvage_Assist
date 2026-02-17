@@ -28,7 +28,7 @@ MSA.LOC.Russian = function()
     MSA_L["WARNING - COUNTDOWN TO LOGOFF TRIGGERED!!!"]="ВНИМАНИЕ — ЗАПУЩЕН ОТСЧЕТ ДО ВЫХОДА ИЗ ИГРЫ!!!"
 
     -- MSA_Craft_Timer.lua
-    MSA_L["{num1} seconds"]="{num1} сек."
+    MSA_L["{num1} seconds"]="{num1} секунд"
     MSA_L["{num1} hrs, {num2} minutes, {misc1} seconds"]="{num1} ч, {num2} мин, {misc1} сек."
     MSA_L["{num1} minutes, {num2} seconds"]="{num1} мин, {num2} сек."
     MSA_L["Calculating..."]="Вычисление..."
