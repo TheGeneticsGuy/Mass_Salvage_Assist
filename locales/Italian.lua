@@ -119,5 +119,12 @@ MSA.LOC.Italian = function()
     MSA_L["Ring Bell On Expiration"]="Suona Campanello alla Scadenza"
     MSA_L["For now, there is only 1 sound choice. This will change."]="Per ora, c'è solo 1 scelta di suono. Questo cambierà."
 
+    MSA_L["The correct reagent stacked has been selected for mass processing."] = "È stata selezionata la pila di reagenti corretta per la lavorazione di massa."
+    MSA_L["Warning! Mass processing your reagent will fail due to first available stack being too small ({num1}). Combining stacks now... Please re-select your reagent and try again."] = "Attenzione! La lavorazione di massa del tuo reagente fallirà perché la prima pila disponibile è troppo piccola ({num1}). Combinazione delle pile in corso... Seleziona di nuovo il tuo reagente e riprova."
+    MSA_L["Warning! MSA nonstop crafting will fail once this stack finishes. You must choose the correct reagent stack to process or they cannot be auto-combined."] = "Attenzione! La creazione continua di MSA fallirà al termine di questa pila. Devi scegliere la pila di reagenti corretta da elaborare, altrimenti non potranno essere combinate automaticamente."
+    MSA_L["Correct Reagent to Select:"] = "Reagente corretto da selezionare:"
+    MSA_L["Bag #{num1}"] = "Borsa #{num1}"
+    MSA_L["Bag-Slot #{num1}: {name1} - Stack Size = {num2}"] = "Spazio-Borsa #{num1}: {name1} - Dimensione Pila = {num2}"
+    MSA_L["Please note, the Bag index begins at 1, for your Backpack, and 5 for the reagent bag. The slot position begins in the top left and counts going right."] = "Nota che l'indice delle borse inizia da 1 per il tuo Zaino e da 5 per la borsa dei reagenti. La posizione dello spazio inizia in alto a sinistra e conta verso destra."
 
 end

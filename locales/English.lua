@@ -124,5 +124,14 @@ MSA.LOC.English = function()
     MSA_L["Ring Bell On Expiration"]=true
     MSA_L["For now, there is only 1 sound choice. This will change."]=true
 
+    -- 1.0.29 
+    MSA_L["The correct reagent stacked has been selected for mass processing."] = true
+    MSA_L["Warning! Mass processing your reagent will fail due to first available stack being too small ({num1}). Combining stacks now... Please re-select your reagent and try again."]=true
+    MSA_L["Warning! MSA nonstop crafting will fail once this stack finishes. You must choose the correct reagent stack to process or they cannot be auto-combined."] = true
+    MSA_L["Correct Reagent to Select:"] = true
+    MSA_L["Bag #{num1}"] = true
+    MSA_L["Bag-Slot #{num1}: {name1} - Stack Size = {num2}"] = true
+    MSA_L["Please note, the Bag index begins at 1, for your Backpack, and 5 for the reagent bag. The slot position begins in the top left and counts going right."] = true
+
 
 end

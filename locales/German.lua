@@ -119,4 +119,12 @@ MSA.LOC.German = function()
     MSA_L["Ring Bell On Expiration"]="Glocke bei Ablauf läuten"
     MSA_L["For now, there is only 1 sound choice. This will change."]="Derzeit gibt es nur eine Soundwahl. Das wird sich ändern."
 
+    MSA_L["The correct reagent stacked has been selected for mass processing."] = "Der richtige Reagenzien-Stapel wurde für die Massenverarbeitung ausgewählt."
+    MSA_L["Warning! Mass processing your reagent will fail due to first available stack being too small ({num1}). Combining stacks now... Please re-select your reagent and try again."] = "Warnung! Die Massenverarbeitung Eurer Reagenzien wird fehlschlagen, da der erste verfügbare Stapel zu klein ist ({num1}). Stapel werden jetzt kombiniert... Bitte wählt Eure Reagenzien erneut aus und versucht es nochmal."
+    MSA_L["Warning! MSA nonstop crafting will fail once this stack finishes. You must choose the correct reagent stack to process or they cannot be auto-combined."] = "Warnung! Das ununterbrochene Handwerken durch MSA wird fehlschlagen, sobald dieser Stapel aufgebraucht ist. Ihr müsst den richtigen Reagenzien-Stapel auswählen, da sie sonst nicht automatisch kombiniert werden können."
+    MSA_L["Correct Reagent to Select:"] = "Richtige Reagenz zur Auswahl:"
+    MSA_L["Bag #{num1}"] = "Tasche #{num1}"
+    MSA_L["Bag-Slot #{num1}: {name1} - Stack Size = {num2}"] = "Taschenplatz #{num1}: {name1} - Stapelgröße = {num2}"
+    MSA_L["Please note, the Bag index begins at 1, for your Backpack, and 5 for the reagent bag. The slot position begins in the top left and counts going right."] = "Bitte beachtet, dass der Taschenindex bei 1 für Euren Rucksack und bei 5 für die Reagenzientasche beginnt. Die Platzposition beginnt oben links und zählt nach rechts."
+
 end

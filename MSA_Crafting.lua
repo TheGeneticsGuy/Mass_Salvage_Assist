@@ -4,6 +4,7 @@ MSA.Crafting = Crafting;
 
 -- Useful globals I haven't put in a tablet yet...
 local combiningStacks = false;
+local endingSoonMsg = false;
 Crafting.reagentQuality = {0,0};
 
 local prof_id = 0;      -- For configuring the prof ID due to special unique considerations
@@ -111,8 +112,12 @@ Crafting.CombineStacks = function( scrapSlot , itemID , forced , restart_craftin
         end
     end
 
-    if restart_crafting and not C_TradeSkillUI.IsRecipeRepeating() then
+    if restart_crafting and not C_TradeSkillUI.IsRecipeRepeating() and not endingSoonMsg then
+        endingSoonMsg = true
         MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Crafting has ended prematurely. Please restart and crafting will continue nonstop"));
+        C_Timer.After(1,function()
+            endingSoonMsg = false;
+        end)
     end
 end
 
@@ -218,13 +223,11 @@ Crafting.GetFirstReagentSizeStack = function( item_id , craft_id )
     local item_info = {}
 
     for bag = 0 , NUM_BAG_SLOTS + NUM_REAGENTBAG_SLOTS do  -- Loop through all bags + reagent bag
-        if not count then
-            for slot = 1, C_Container.GetContainerNumSlots( bag ) do
-                item_info = C_Container.GetContainerItemInfo( bag , slot )
+        for slot = 1, C_Container.GetContainerNumSlots( bag ) do
+            item_info = C_Container.GetContainerItemInfo( bag , slot )
 
-                if item_info and item_info.itemID == item_id then
-                    return item_info.stackCount , bag , slot
-                end
+            if item_info and item_info.itemID == item_id then
+                return item_info.stackCount , bag , slot
             end
         end
     end
@@ -472,8 +475,11 @@ Crafting.EndingTooSoon = function( craft_id )
                 end
             end);
         end
-    else
+    elseif not endingSoonMsg then
         MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Crafting has ended prematurely. Please restart and crafting will continue nonstop" ) );
+        C_Timer.After(1,function()
+            endingSoonMsg = false;
+        end)
     end
 end
 
@@ -518,18 +524,27 @@ Crafting.DelayedStacking = function ( reagentsToStack , craft_id )
     end
 end
 
+local validationAnnounce = false;
 -- Event listener to account for actions to know when to align conditions to begin stacking the reagents in bags.
 local CraftingFrame = CreateFrame( "FRAME" , "MSA_CraftingListener" );
 CraftingFrame:RegisterEvent( "TRADE_SKILL_CRAFT_BEGIN" );
 CraftingFrame:RegisterEvent( "UNIT_SPELLCAST_FAILED" );
+CraftingFrame:RegisterEvent("UPDATE_TRADESKILL_CAST_STOPPED");
 CraftingFrame:SetScript( "OnEvent" , function( _ , event , craft_id , _ , failed_id )
 
     if event == "TRADE_SKILL_CRAFT_BEGIN" then
-        if Crafting.Is_Salvage_Recipe ( craft_id ) then
+        if craft_id and not MSA.Util.issecretvalue(craft_id) and Crafting.Is_Salvage_Recipe ( craft_id ) then
+            if not validationAnnounce and C_TradeSkillUI.IsRecipeRepeating() and ProfessionsFrame and ProfessionsFrame.CraftingPage.SchematicForm:IsVisible() then
+                validationAnnounce = true;
+                Crafting.ValidateSelection();
+            end
             Crafting.CraftListener(craft_id);
         end
 
-    elseif event == "UNIT_SPELLCAST_FAILED" and failed_id and Crafting.Is_Salvage_Recipe ( failed_id ) and MSA_save.non_stop and C_TradeSkillUI.GetCraftableCount(failed_id) > 0 and not combiningStacks then
+    elseif event == "UPDATE_TRADESKILL_CAST_STOPPED" then
+        validationAnnounce = false;
+
+    elseif event == "UNIT_SPELLCAST_FAILED" and failed_id and not MSA.Util.issecretvalue(failed_id) and Crafting.Is_Salvage_Recipe ( failed_id ) and MSA_save.non_stop and C_TradeSkillUI.GetCraftableCount(failed_id) > 0 and not combiningStacks then
         local needs_to_stack , more_to_craft = Crafting.Is_More_To_Craft(failed_id);
 
         -- Do we need to restack herbs and restart, or do we need to just restart
@@ -630,3 +645,36 @@ Crafting.KillCrafting = function()
         end)
     end
 end
+
+-- Method:          Crafting.ValidateSelection()
+-- What it Does:    Checks if the selected reagent to mass craft is the correct reagent based on bag slot position
+-- Purpose:         Blizz UI logic doesn't actually follow the "selected" reagent, it starts processing the first available in bag order from 0 (backpack) to 5 (reagent bag). So, the top left item in a bag, in the lowest index bag is the one that needs to be selected for this addon to work. This helps ensure the user understands why mass milling salvaging fails and what can be done to resolve their selection.
+Crafting.ValidateSelection = function()
+    if ProfessionsFrame.CraftingPage.SchematicForm.salvageSlot then
+        local allocationItem = ProfessionsFrame.CraftingPage.SchematicForm.salvageSlot.allocationItem;
+
+        if allocationItem then
+            local recipeID = ProfessionsFrame.CraftingPage.SchematicForm.recipeSchematic.recipeID
+            local slotIndex = allocationItem:GetItemLocation().slotIndex
+            local bagID = allocationItem:GetItemLocation().bagID
+            local stackCount, bag, slot = Crafting.GetFirstReagentSizeStack(allocationItem.debugItemID, recipeID)
+            local minimumStackSize = Crafting.Get_Reagent_Count_Spell(recipeID);
+            if bag == bagID and slot == slotIndex then
+                MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("The correct reagent stacked has been selected for mass processing.") )
+            else
+                if stackCount < minimumStackSize then
+                    MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Warning! Mass processing your reagent will fail due to first available stack being too small ({num1}). Combining stacks now... Please re-select your reagent and try again." , nil , nil , stackCount) )
+                else
+                    MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Warning! MSA nonstop crafting will fail once this stack finishes. You must choose the correct reagent stack to process or they cannot be auto-combined.") )
+                    MSA.Report(" ");
+                    MSA.Report(MSA.L("Correct Reagent to Select:"))
+                    MSA.Report(MSA.L("Bag #{num1}" , nil , nil , bag+1));
+                    MSA.Report(MSA.L("Bag-Slot #{num1}: {name1} - Stack Size = {num2}" , C_Item.GetItemInfo(allocationItem.debugItemID) , nil , slot , stackCount ));
+                    MSA.Report(" ");
+                    MSA.Report( MSA.L("Please note, the Bag index begins at 1, for your Backpack, and 5 for the reagent bag. The slot position begins in the top left and counts going right.") );
+                end
+            end
+        end
+    end
+end
+

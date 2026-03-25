@@ -49,7 +49,7 @@ UI.LoadUI = function()
         Checkbox_Tracker.craft_id = 0;
 
         Checkbox_Tracker:SetScript ( "OnEvent" , function( _ , _ , craft_id )
-            if Checkbox_Tracker.craft_id ~= craft_id then
+            if not MSA.Util.issecretvalue(craft_id) and Checkbox_Tracker.craft_id ~= craft_id then
                 if not C_TradeSkillUI.IsRecipeRepeating() then
                     Checkbox_Tracker.craft_id = craft_id;       -- Do not want to overwrite this if player  is just flipping through spells when crafting
                     if craft_id then
@@ -822,14 +822,13 @@ end
 --- UI LOGIC ----
 -----------------
 
-
-
 -- I don't have the string variable for for Khaz Algar
 -- /run local ids = C_TradeSkillUI.GetAllProfessionTradeSkillLines(); for i=1,#ids do local info=C_TradeSkillUI.GetProfessionInfoBySkillLineID(ids[i]); if info.expansionName=="Khaz Algar" then print(info.professionName .. " - " .. info.professionID);end;end
 
 UI.SPECIAL_TRADESKILLID = {
-    [2874] = 445466,        -- 2874 = Enchanting - Currently, only special prof used
-    [2872] = 453727         -- 2872 = Khaz Algar Blacksmithing, 453727 = Everburning Ignition spell
+    [2874] = 445466,        -- 2874 = Enchanting - 445466 = shatter essence spell
+    [2872] = 453727,        -- 2872 = Khaz Algar Blacksmithing, 453727 = Everburning Ignition spell
+    -- [2913] = 1235733.    -- 2913 = Midnight Enchanting, 1235733 = Shattered Essence Spell
     -- [2880] = "LW",
     -- [2871] = "ALCH",
     -- [2875] = "ENG",
@@ -841,7 +840,7 @@ UI.SPECIAL_TRADESKILLID = {
     -- [2882] = "SKIN",
     -- [2873] = "COOK"
  }
-
+ 
 -- Table to hold all special considerations based on expansion specific profession IDs
 -- type_consideration
 UI.Special_Considerations_Table = {

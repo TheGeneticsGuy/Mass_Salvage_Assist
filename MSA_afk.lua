@@ -18,48 +18,53 @@ Listener:SetScript("OnEvent", function(self, event, unit )
     if event == "PLAYER_FLAGS_CHANGED" then
         local isCurrentlyAFK = UnitIsAFK("player")
 
-        -- Player just went AFK
-        if not isAFK and isCurrentlyAFK then
-            isAFK = true
+        if not MSA.Util.issecretvalue(isCurrentlyAFK) then
+            -- Player just went AFK
+            if not isAFK and isCurrentlyAFK then
+                isAFK = true
 
-            -- Play first alert for simple AFK - not logout
-            if ( ( MSA_save.afkAlarm[1] and MSA_save.afkAlarm[3] ) or ( MSA_save.flashClientIcon and MSA_save.flashClientIconAFK ) ) and C_TradeSkillUI.IsRecipeRepeating() then      -- Only play if going afk.
-                MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Warning! AFK while crafting."));
+                -- Play first alert for simple AFK - not logout
+                if ( ( MSA_save.afkAlarm[1] and MSA_save.afkAlarm[3] ) or ( MSA_save.flashClientIcon and MSA_save.flashClientIconAFK ) ) and C_TradeSkillUI.IsRecipeRepeating() then      -- Only play if going afk.
+                    MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Warning! AFK while crafting."));
 
-                if MSA_save.afkAlarm[1] and MSA_save.afkAlarm[3] then
-                    local soundEnabled = GetCVar("Sound_EnableAllSound")
-                    local soundSFX = GetCVar("Sound_EnableSFX")
+                    if MSA_save.afkAlarm[1] and MSA_save.afkAlarm[3] then
+                        local soundEnabled = GetCVar("Sound_EnableAllSound")
+                        local soundSFX = GetCVar("Sound_EnableSFX")
 
-                    if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
-                        SetCVar("Sound_EnableAllSound", 1);
-                        SetCVar("Sound_EnableSFX", 1);
+                        if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                            SetCVar("Sound_EnableAllSound", 1);
+                            SetCVar("Sound_EnableSFX", 1);
+                        end
+
+                        PlaySound(SOUNDKIT[MSA_save.afkAlarm[2]] , "SFX");
+
+                        -- Restore the sound
+                        if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
+                            C_Timer.After(1, function()
+                                SetCVar("Sound_EnableAllSound", soundEnabled)
+                                SetCVar("Sound_EnableSFX", soundSFX);
+                            end)
+                        end
                     end
 
-                    PlaySound(SOUNDKIT[MSA_save.afkAlarm[2]] , "SFX");
-
-                    -- Restore the sound
-                    if MSA_save.afkAlarm[6] and ( soundEnabled == "0" or soundSFX == "0" ) then
-                        C_Timer.After(1, function()
-                            SetCVar("Sound_EnableAllSound", soundEnabled)
-                            SetCVar("Sound_EnableSFX", soundSFX);
-                        end)
+                    -- Flash the Desktop icon if tabbed off
+                    if MSA_save.flashClientIcon and MSA_save.flashClientIconAFK then
+                        FlashClientIcon()
                     end
+
                 end
 
-                -- Flash the Desktop icon if tabbed off
-                if MSA_save.flashClientIcon and MSA_save.flashClientIconAFK then
-                    FlashClientIcon()
-                end
-
+            -- Player returned from AFK
+            elseif isAFK and not isCurrentlyAFK then
+                isAFK = false
             end
-
-        -- Player returned from AFK
-        elseif isAFK and not isCurrentlyAFK then
-            isAFK = false
         end
     elseif event == "PLAYER_ENTERING_WORLD" then
         -- Initialize state when loading
-        isAFK = UnitIsAFK("player")
+        local isCurrentlyAFK = UnitIsAFK("player")
+        if not MSA.Util.issecretvalue(isCurrentlyAFK) then
+            isAFK = isCurrentlyAFK;
+        end
 
     elseif event == "UNIT_FLAGS" and ( ( MSA_save.afkAlarm[1] and MSA_save.afkAlarm[5] ) or ( MSA_save.flashClientIcon and MSA_save.flashClientIconLogOff ) ) and ( time() - MSA.AFK.TimeSinceCraft ) <= 5 then
         if unit == "player" and isAFK then

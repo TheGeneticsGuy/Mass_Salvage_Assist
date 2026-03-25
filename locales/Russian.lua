@@ -119,4 +119,12 @@ MSA.LOC.Russian = function()
     MSA_L["Ring Bell On Expiration"]="Звонок при истечении"
     MSA_L["For now, there is only 1 sound choice. This will change."]="Пока доступен только 1 вариант звука. Это изменится."
 
+    MSA_L["The correct reagent stacked has been selected for mass processing."] = "Для массовой обработки выбрана правильная стопка реагентов."
+    MSA_L["Warning! Mass processing your reagent will fail due to first available stack being too small ({num1}). Combining stacks now... Please re-select your reagent and try again."] = "Внимание! Массовая обработка вашего реагента не удастся, так как первая доступная стопка слишком мала ({num1}). Объединение стопок... Пожалуйста, выберите реагент заново и повторите попытку."
+    MSA_L["Warning! MSA nonstop crafting will fail once this stack finishes. You must choose the correct reagent stack to process or they cannot be auto-combined."] = "Внимание! Непрерывное создание MSA прервется, как только закончится эта стопка. Вы должны выбрать правильную стопку реагентов для обработки, иначе они не смогут объединиться автоматически."
+    MSA_L["Correct Reagent to Select:"] = "Правильный реагент для выбора:"
+    MSA_L["Bag #{num1}"] = "Сумка #{num1}"
+    MSA_L["Bag-Slot #{num1}: {name1} - Stack Size = {num2}"] = "Сумка-ячейка #{num1}: {name1} - Размер стопки = {num2}"
+    MSA_L["Please note, the Bag index begins at 1, for your Backpack, and 5 for the reagent bag. The slot position begins in the top left and counts going right."] = "Обратите внимание, что индекс сумок начинается с 1 для вашего рюкзака и с 5 для сумки для реагентов. Отсчет ячеек начинается в левом верхнем углу и идет слева направо."
+
 end

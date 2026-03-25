@@ -119,4 +119,12 @@ MSA.LOC.MandarinCN = function()
     MSA_L["Ring Bell On Expiration"]="过期时响铃"
     MSA_L["For now, there is only 1 sound choice. This will change."]="目前只有 1 种声音选择。以后会更改。"
 
+    MSA_L["The correct reagent stacked has been selected for mass processing."] = "已选择正确的材料堆叠用于批量处理。"
+    MSA_L["Warning! Mass processing your reagent will fail due to first available stack being too small ({num1}). Combining stacks now... Please re-select your reagent and try again."] = "警告！由于第一个可用的堆叠太小（{num1}），批量处理材料将失败。正在合并堆叠...请重新选择材料并重试。"
+    MSA_L["Warning! MSA nonstop crafting will fail once this stack finishes. You must choose the correct reagent stack to process or they cannot be auto-combined."] = "警告！一旦此堆叠耗尽，MSA连续制造将失败。必须选择正确的材料堆叠进行处理，否则它们无法自动合并。"
+    MSA_L["Correct Reagent to Select:"] = "应选择的正确材料："
+    MSA_L["Bag #{num1}"] = "背包 #{num1}"
+    MSA_L["Bag-Slot #{num1}: {name1} - Stack Size = {num2}"] = "背包-格数 #{num1}：{name1} - 堆叠数量 = {num2}"
+    MSA_L["Please note, the Bag index begins at 1, for your Backpack, and 5 for the reagent bag. The slot position begins in the top left and counts going right."] = "请注意，背包索引从1（行囊）开始，材料包的索引为5。格子位置从左上角开始，向右计数。"
+    
 end

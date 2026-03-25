@@ -119,4 +119,13 @@ MSA.LOC.Korean = function()
     MSA_L["Ring Bell On Expiration"]="만료 시 벨 소리 재생"
     MSA_L["For now, there is only 1 sound choice. This will change."]="현재 선택할 수 있는 소리는 1개뿐입니다. 추후 변경될 예정입니다."
 
+    MSA_L["The correct reagent stacked has been selected for mass processing."] = "대량 처리를 위한 올바른 재료 중첩이 선택되었습니다."
+    MSA_L["Warning! Mass processing your reagent will fail due to first available stack being too small ({num1}). Combining stacks now... Please re-select your reagent and try again."] = "경고! 첫 번째로 사용 가능한 중첩이 너무 작아서({num1}) 대량 처리에 실패할 것입니다. 지금 중첩을 합치는 중입니다... 재료를 다시 선택한 후 다시 시도해 주세요."
+    MSA_L["Warning! MSA nonstop crafting will fail once this stack finishes. You must choose the correct reagent stack to process or they cannot be auto-combined."] = "경고! 이 중첩이 끝나면 MSA 연속 제작이 실패합니다. 처리할 올바른 재료 중첩을 선택하지 않으면 자동으로 합쳐지지 않습니다."
+    MSA_L["Correct Reagent to Select:"] = "선택해야 할 올바른 재료:"
+    MSA_L["Bag #{num1}"] = "가방 #{num1}"
+    MSA_L["Bag-Slot #{num1}: {name1} - Stack Size = {num2}"] = "가방-칸 #{num1}: {name1} - 중첩 크기 = {num2}"
+    MSA_L["Please note, the Bag index begins at 1, for your Backpack, and 5 for the reagent bag. The slot position begins in the top left and counts going right."] = "가방 번호는 기본 가방의 경우 1부터, 재료 가방의 경우 5부터 시작합니다. 칸 위치는 왼쪽 위에서 시작하여 오른쪽으로 이동하며 계산됩니다."
+
+    
 end

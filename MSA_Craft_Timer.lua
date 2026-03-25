@@ -163,19 +163,23 @@ msa_timer:RegisterEvent("TRADE_SKILL_CRAFT_BEGIN")
 msa_timer:RegisterEvent("SPELL_DATA_LOAD_RESULT")
 msa_timer:SetScript("OnEvent", function( _ , event , craft_id )
     if event == "TRADE_SKILL_CRAFT_BEGIN" then
-        Trade_Skill_Craft_Record()
+        if not MSA.Util.issecretvalue(craft_id) then
+            Trade_Skill_Craft_Record()
 
-        if MSA.UI.CT_Core_Frame.craft_id ~= craft_id then   -- Only need to trigger a countdown check if spell craft ID has changed.
-            MSA.UI.CT_Core_Frame.craft_id = craft_id
-            CT.Initialize_Countdown();
+            if MSA.UI.CT_Core_Frame.craft_id ~= craft_id then   -- Only need to trigger a countdown check if spell craft ID has changed.
+                MSA.UI.CT_Core_Frame.craft_id = craft_id
+                CT.Initialize_Countdown();
+            end
         end
     elseif event == "SPELL_DATA_LOAD_RESULT" then
-        if msa_timer.craft_id ~= craft_id and not C_TradeSkillUI.IsRecipeRepeating() then
-            msa_timer.craft_id = craft_id;
-            if MSA.Crafting.Is_Salvage_Recipe( craft_id ) then
-                MSA.UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox:Show()
-            else
-                MSA.UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox:Hide()
+        if not MSA.Util.issecretvalue(craft_id) then
+            if msa_timer.craft_id ~= craft_id and not C_TradeSkillUI.IsRecipeRepeating() then
+                msa_timer.craft_id = craft_id;
+                if MSA.Crafting.Is_Salvage_Recipe( craft_id ) then
+                    MSA.UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox:Show()
+                else
+                    MSA.UI.CT_Core_Frame.MSA_In_Bags_Only_Checkbox:Hide()
+                end
             end
         end
     end

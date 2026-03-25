@@ -119,5 +119,13 @@ MSA.LOC.SpanishMX = function()
     MSA_L["Ring Bell On Expiration"]="Sonar campana al expirar"
     MSA_L["For now, there is only 1 sound choice. This will change."]="Por ahora, solo hay 1 opción de sonido. Esto cambiará."
 
+    MSA_L["The correct reagent stacked has been selected for mass processing."] = "La bonne pile de composants a été sélectionnée pour le traitement de masse."
+    MSA_L["Warning! Mass processing your reagent will fail due to first available stack being too small ({num1}). Combining stacks now... Please re-select your reagent and try again."] = "Attention ! Le traitement de masse de votre composant va échouer car la première pile disponible est trop petite ({num1}). Combinaison des piles en cours... Veuillez resélectionner votre composant et réessayer."
+    MSA_L["Warning! MSA nonstop crafting will fail once this stack finishes. You must choose the correct reagent stack to process or they cannot be auto-combined."] = "Attention ! L'artisanat en continu de MSA échouera une fois cette pile terminée. Vous devez choisir la bonne pile de composants à traiter, sinon elles ne pourront pas être combinées automatiquement."
+    MSA_L["Correct Reagent to Select:"] = "Composant correct à sélectionner :"
+    MSA_L["Bag #{num1}"] = "Sac n°{num1}"
+    MSA_L["Bag-Slot #{num1}: {name1} - Stack Size = {num2}"] = "Sac-Emplacement n°{num1} : {name1} - Taille de la pile = {num2}"
+    MSA_L["Please note, the Bag index begins at 1, for your Backpack, and 5 for the reagent bag. The slot position begins in the top left and counts going right."] = "Veuillez noter que l'index des sacs commence à 1 pour votre Sac à dos, et à 5 pour le sac de composants. La position de l'emplacement commence en haut à gauche et se compte vers la droite."
+
 
 end

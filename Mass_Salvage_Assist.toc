@@ -2,7 +2,7 @@
 
 ## Title: Mass Salvage Assist
 ## Author: TheGenomeWhisperer (Arkaan-Zul'jin)
-## Version: 1.0.28
+## Version: 1.0.29
 ## Notes: Mass Salvage without error or interruption
 ## Category: Professions
 ## Category-ruRU: Профессии
@@ -28,3 +28,4 @@ MSA_UI.lua
 MSA_Slash.lua
 MSA_Craft_Timer.lua
 MSA_afk.lua
+MSA_Util.lua
