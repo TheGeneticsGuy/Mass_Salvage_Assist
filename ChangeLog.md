@@ -1,6 +1,6 @@
 ## **Mass Salvage Assist - Version 1.0.29 - March 25th, 2026**
 
-*Please note, I haven't yet gotten to update certain special consideration spells, like Shattered Essence, as I am still evaluating how to implement properly, though it sseems about the same. I just am now FINALLY playing the game myself and leveling my professions so I want to ensure I clean that all up nicely, but this update was critical to get out quickly.*
+*Please note, I haven't yet gotten to update certain special consideration spells, like Shattered Essence, but I needed to get this update out as quick as possible.*
 
 ***QUALITY OF LIFE***
 
@@ -14,7 +14,7 @@ In addition, I have re-modified the addon Description page to show this visually
 
 ***BUG FIXES***
 
-* Fixed many issues regarding Addongeddon Midnight's API restrictions, notably regarding secret values. This appears to be somewhat inconsistent when secret values triggers from the server. For example, I found that on occasion, just standing near target dummies whilst crafting would throw me into addon restrictive state and certain API would no longer return important info from server as I crafted, and would only return the new "secret" value, which is restricted. I had it throw errors on me when I was on a flightpath also, as I was opening the profession window. MSA needs to check if a spell is a proper "salvage" type recipe for it to show the necessary checkbox for nonstop crafting. Ok Blizz - WHY am I getting restricted API whilst on a flightpath, but only sometimes? This is kind of annoying. Anyway, the bugs themselves are resolved, but there isn't really a way around the API restrictions by Blizz so you may find on occasion you may need to click off a recipe and click back on to get it to refresh properly. This is mostly a non-issue if crafting at your profession tables, or if you are like me, just do all my mass crafting in my Garrison to avoid the haters.
+* Fixed many issues regarding Addongeddon Midnight's API restrictions, notably regarding secret values. This appears to be somewhat inconsistent when secret values triggers from the server. For example, I found that on occasion, just standing near target dummies whilst crafting would throw me into addon restrictive state and certain API would no longer return important info from server as I crafted, and would only return the new "secret" value, which is restricted. I had it throw errors on me when I was on a flightpath also, as I was opening the profession window. MSA needs to check if a spell is a proper "salvage" type recipe for it to show the necessary checkbox for nonstop crafting. Ok Blizz - WHY am I getting restricted API whilst on a flightpath, but only sometimes? This is kind of annoying. There isn't really a way around the API restrictions by Blizz so you may find on occasion you may need to refresh your profession window.
 
 * Fixed an issue where you would get double chat message notification that crafting ended prematurely.
 
