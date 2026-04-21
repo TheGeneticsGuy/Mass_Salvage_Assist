@@ -1,3 +1,7 @@
+## **Mass Salvage Assist - Version 1.0.30 - April 21st, 2026**
+
+*Compatibility Update for 12.0.5*
+
 ## **Mass Salvage Assist - Version 1.0.29 - March 25th, 2026**
 
 *Please note, I haven't yet gotten to update certain special consideration spells, like Shattered Essence, but I needed to get this update out as quick as possible.*
