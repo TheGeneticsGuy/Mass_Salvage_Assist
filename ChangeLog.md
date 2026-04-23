@@ -1,3 +1,7 @@
+## **Mass Salvage Assist - Version 1.0.31 - April 23rd, 2026**
+
+* Fixed a Lua error when encountering the new "Secret Variables." This will no longer happen.
+
 ## **Mass Salvage Assist - Version 1.0.30 - April 21st, 2026**
 
 *Compatibility Update for 12.0.5*

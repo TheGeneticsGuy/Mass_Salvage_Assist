@@ -1,16 +1,13 @@
 local Util = {};
 MSA.Util = Util;
+-- MSA.Util.secretValueDelay = false;
 
 -- Method:          Util.issecretvalue()
 -- What it Does:    Returns if a value is a secret value, but since this dropped in 12.0, API doesn't currently exist
 -- Purpose:         Compatibility of all builds
 Util.issecretvalue = function( value )
     if issecretvalue then
-        local isSecret = issecretvalue(value);
-        if isSecret and not GRM_G.secretValueDelay then
-            GRM_G.secretValueDelay = true;
-        end
-        return isSecret
+        return issecretvalue(value);
     end
     return false
 end

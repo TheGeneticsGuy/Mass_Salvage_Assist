@@ -96,17 +96,15 @@ LOC.SetLanguage = function ( index , forceReload )
     LOC.ConfigureAlternativeSlashCommands();
 end
 
--- Method:          LOC.GetNumberUntranslatedLines ( int )
+-- Method:          LOC.GetNumberUntranslatedLines ()
 -- What it Does:    It returns the number of language lines that need to be translated
 -- Purpose:         To help reach out to the community to build an effort for crowdsupport for translation efforts.
-LOC.GetNumberUntranslatedLines = function ( languageIndex )
+LOC.GetNumberUntranslatedLines = function ()
     local result = 0;
     -- index 1 will always result as 0 since it is written native in English
-    if languageIndex > 1 then
-        for _ , y in pairs ( GRM_L ) do
-            if y == true then
-                result = result + 1;
-            end
+    for _ , y in pairs ( MSA_L ) do
+        if y == true then
+            result = result + 1;
         end
     end
     return result;
