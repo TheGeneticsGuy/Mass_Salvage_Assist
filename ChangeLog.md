@@ -1,4 +1,4 @@
-## **Mass Salvage Assist - Version 1.0.31 - April 23rd, 2026**
+## **Mass Salvage Assist - Version 1.0.32 - June 17th, 2026**
 
 *Compatibility Update for 12.0.7*
 
