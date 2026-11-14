@@ -501,9 +501,9 @@ Crafting.DelayedStacking = function ( reagentsToStack , craft_id )
         end
 
         -- Combining all 2ndary stacks.
-        local itemLink = select ( 2 , GetItemInfo ( reagentsToStack[i][1] ) );
+        local itemLink = select ( 2 , C_Item.GetItemInfo ( reagentsToStack[i][1] ) );
         if not itemLink then
-            itemLink = select ( 2 , GetItemInfo ( reagentsToStack[i][1] ) ); -- Call it twice as the first call will be nil on server after login.
+            itemLink = select ( 2 , C_Item.GetItemInfo ( reagentsToStack[i][1] ) ); -- Call it twice as the first call will be nil on server after login.
         end
         if itemLink then
             MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("Combining {name1} stacks..." , itemLink ) );

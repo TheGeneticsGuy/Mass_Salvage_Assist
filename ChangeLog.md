@@ -1,3 +1,10 @@
+## **Mass Salvage Assist - Version 1.0.35 - November 13th, 2026**
+
+* Fixed a lua error that would occur as some functions needed ot be added to the C_Item namespace.
+
+* Added an icon to the addon select page.
+
+
 ## **Mass Salvage Assist - Version 1.0.34 - October 15th, 2026**
 
 *Compatibility Update for 12.1.5*

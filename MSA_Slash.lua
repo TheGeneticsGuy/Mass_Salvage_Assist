@@ -136,11 +136,7 @@ SC.IsValid = function ( command )
 
     return isValid;
 end
--- /run for x in pairs(ProfessionsFrame.CraftingPage.SchematicForm.Reagents) do print(x) end
--- /run local ids=C_TradeSkillUI.GetSalvagableItemIDs(434020);for i=1,#ids do print(GetItemInfo(ids[i])) end
--- /dump C_TradeSkillUI.GetCraftingReagentBonusText(434020)
--- /dump C_TradeSkillUI.GetReagentSlotStatus(262,434020)
--- /dump C_TradeSkillUI.GetRecipeSchematic(434020,false).reagentSlotSchematics
+
 -- Method:          SC.Is_Salvage_Recipe ( int )
 -- What it Does:    Returns true if a valid recipe
 -- Purpose:         Easy to check for slash commands if the spell given was valid.
@@ -164,7 +160,7 @@ end
 -- Purpose:         Just breaking up the validation checks
 SC.Is_Valid_Item_ID = function ( spell_id , item_id )
 
-    local item_class = select ( 6 , GetItemInfoInstant ( item_id ) );
+    local item_class = select ( 6 , C_Item.GetItemInfoInstant ( item_id ) );
 
     if item_class then
 
@@ -250,7 +246,7 @@ SC.Craft = function( recipe_id , item_id )
     if smaller_stack[1] == -1 then
         MSA.Report(MSA.L("MSA") .. ": " .. MSA.L("No items in bags to craft." ));
     else
-        local itemLink = select ( 2 , GetItemInfo(item_id) );
+        local itemLink = select ( 2 , C_Item.GetItemInfo(item_id) );
         if not itemLink then
             itemLink = "";
         end
